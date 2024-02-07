@@ -1,0 +1,3 @@
+
+
+$('title').html($('title').html() + '');

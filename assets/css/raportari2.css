@@ -1,0 +1,74 @@
+.table th,
+.table td {
+    width: 100px !important;
+    max-width: 100px !important;
+}
+
+.dataTables_filter {
+    display: none;
+}
+
+.dataTables_length,
+.dataTables_info,
+.dataTables_paginate {
+    display: none;
+}
+
+td:not(.center) {
+    text-align: right !important;
+    border: 1px solid #AAAAAA;
+}
+
+td {
+    border: 1px solid #AAAAAA;
+}
+
+.center {
+    text-align: center !important;
+}
+
+td [index] {
+    text-align: center !important;
+}
+
+td [nume_total] {
+    text-align: center !important;
+}
+
+td [index_operator] {
+    text-align: center !important;
+}
+
+th {
+    text-align: right !important;
+    border: 1px solid #AAAAAA;
+}
+
+th [index] {
+    text-align: center !important;
+}
+
+th [index_operator] {
+    text-align: center !important;
+}
+
+#bancnote tr:last-child {
+    background-color: #444444 !important;
+    border: 1px solid #AAAAAA;
+    color: rgb(235, 242, 250);
+}
+
+#monede tr:last-child {
+    background-color: #444444 !important;
+    border: 1px solid #AAAAAA;
+    color: rgb(235, 242, 250);
+}
+
+#operators_raport_total {
+    background-color: #444444 !important;
+    border: 1px solid #AAAAAA;
+    color: rgb(235, 242, 250);
+}
+.blue {
+color: #77adeb;
+}

@@ -1,0 +1,9 @@
+{
+    "connectionLimit": 100,
+    "host": "127.0.0.1",
+    "user": "egreen_iotne",
+    "password": "uGWZF79z7aTvseTl",
+    "database": "egreen_iotne",
+    "timezone": "+00:00",
+    "multipleStatements": true
+  }

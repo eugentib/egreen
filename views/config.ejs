@@ -1,0 +1,108 @@
+<%- include('partials/index_head.ejs')%>
+    <div style="margin-top: 56px;">
+        <ul class="nav nav-tabs" id="tablink">
+            <li class="nav-item" data-cmd="get_from_db_dturi"><a class="nav-link active" role="tab" data-toggle="tab"
+                    href="#tab-1">Configurare Echipament</a></li>
+            <li class="nav-item" data-cmd="get_from_db_l2"><a class="nav-link" role="tab" data-toggle="tab"
+                    href="#tab-2">Configurare email Level 2</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" role="tabpanel" id="tab-1">
+                <div class="container" style="max-width: 2500px;padding-left: 0;padding-right: 0;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="table-responsive table-bordered text-center" style="margin-top: 10px;">
+                                <table class="dt_tabel table table-bordered table-dark tabel_dturi" id="dt_tabel">
+                                    <thead class="text-primary"
+                                        style="color: rgb(235,242,250);background-color: #444444!important;">
+                                        <tr class="text-center text-light">
+                                            <th class="text-center text-light" style="width: 35px;"><span
+                                                    style="color: rgb(235,242,250);"><strong>Edit</strong><br></span>
+                                                <!--    <span><input type="checkbox" class="check_all"></span> -->
+                                            </th>
+                                            <th class="text-center text-light sort" style="width: 50px;"><span
+                                                    style="color: rgb(235,242,250);"><strong>Nr.</strong><br></span><span
+                                                    style="color: rgb(235,242,250);"><strong>Crt.</strong><br></span>
+                                            </th>
+                                            <th class="sort" style="width: 8%;">&nbsp;
+                                                Serie<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 8%;">&nbsp;
+                                                Model<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Localitate<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 8%;">&nbsp;
+                                                Nr. magazin<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 8%;">&nbsp;
+                                                Ultima revizie<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 8%;">&nbsp;
+                                                Interval revizie<br>(zile)<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 8%;">&nbsp;
+                                                Interval baloti<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 18%;">&nbsp;
+                                                Email service<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort" style="width: 18%;">&nbsp;
+                                                Email Kaufland<i class="fa fa-sort float-right"></i></th>
+                                        </tr>
+
+                                        <tr class="text-center text-light" style="background-color: #d6dee7; ">
+                                            <th class="text-center"><input id="fckdt" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fidt" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fserie" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fmodel" type="text" class="filter">
+                                            </th>
+                                            <th class="text-center"><input id="flocalitate" type="text" class="filter">
+                                            </th>
+                                            <th class="text-center"><input id="fnumarmag" type="text" class="filter">
+                                            <th class="text-center"><input id="fultimaR" type="text" class="filter">
+                                            <th class="text-center"><input id="fintervalZ" type="text" class="filter">
+                                            <th class="text-center"><input id="fintervalB" type="text" class="filter">
+                                            <th class="text-center"><input id="fenmailS" type="text" class="filter">
+                                            <th class="text-center"><input id="fenmailK" type="text" class="filter">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane" role="tabpanel" id="tab-2">
+                <div class="container" style="max-width: 2500px;padding-left: 0;padding-right: 0;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="table-responsive table-bordered text-center"
+                                style="margin-top: 10px;color: #191c1f; width: 50%;">
+                                <table class="l2_tabel table table-bordered table-dark tabel_dturi" id="l2_tabel">
+                                    <thead class="text-primary"
+                                        style="color: rgb(235,242,250);background-color: #444444!important;">
+                                        <tr class="text-center text-light">
+                                            <th class="text-center text-light"><span
+                                                    style="color: rgb(235,242,250);"><strong><br>Edit</strong><br>&nbsp;</span>
+                                                <!--    <span><input type="checkbox" class="check_all"></span> -->
+                                            </th>
+                                            <th class="sort" style="width: 78%;">&nbsp;
+                                                Conditie</th>
+                                            <th class="sort" style="width: 12%;">Valoare</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%- include('partials/index_footer.ejs') %>
+        <script src="assets/js/comun.js"></script>
+        <script src="assets/js/config.js"></script>
+        </body>
+
+        </html>

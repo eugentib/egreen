@@ -1,0 +1,202 @@
+<%- include('partials/index_head.ejs') -%>
+    <div style="margin-top: 56px;">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" href="#tab-1">Log-uri</a></li>
+            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-2"
+                    onclick="display_ct();">Setare
+                    Data/Ora</a></li>
+            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-3">Setari Baza
+                    Date</a></li>
+            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" href="#tab-4">Update</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" role="tabpanel" id="tab-1">
+                <div class="container" style="max-width: 2500px;padding-left: 0;padding-right: 0;">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-5 col-xl-4">
+                            <form class="text-center border rounded" action="download" method="get"
+                                enctype="multipart/form-data" id="server_log_read"
+                                style="background-color: #77adeb;margin-top: 10px;height: 229px;">
+                                <div class="form-group text-center" style="margin-bottom: 0;"><label
+                                        style="padding-right: 20px;padding-left: 30px;font-size: 22px;padding-top: 17px;margin-top: -6px;">Vizualizați
+                                        intrari</label>
+                                    <div class="input-group" style="margin: 0 auto;width: 384px;">
+                                        <div id="perioada">
+                                            <div class="float-left"
+                                                style="height: 69px;width: 56px;margin-top: 11px;margin-left: 12px;">
+                                                <label class="float-left">&nbsp; &nbsp; De la&nbsp;</label><label
+                                                    class="float-left" style="margin-top: 5px;">Pâna la</label>
+                                            </div>
+                                            <div class="float-left" style="height: 135px;width: auto;padding: 8px;">
+                                                <input class="form-control" type="text" id="datepicker"
+                                                    style="width: 160px;margin: 2px;position:relative; z-index: 1111;">
+                                                <input class="form-control" type="text" id="datepicker2"
+                                                    style="width: 160px;margin: 2px;position: relative; z-index: 1111;">
+                                                <button class="btn btn-primary" type="submit" id="server_log"
+                                                    style="color: rgb(4,4,4);margin-left: -5px; margin-top: 2rem;">Descarcă
+                                                    log
+                                                    server</button>
+                                            </div>
+                                            <input type="text" name="read_log_server" value="log_server.tgz"
+                                                style="display: none;">
+                                        </div>
+                                        <div class="float-right"><button class="btn btn-primary text-nowrap text-center"
+                                                type="button" id="incarca_log"
+                                                style="color: rgb(0,0,0); height: 62px; width: 78px; padding: 7px; margin-left: 22px; margin-top: 11px;">
+                                                Încarcă&nbsp;<br>interval<br><br></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 0rem;width: 342px;">
+                                </div>
+                                <label class="text-center" id="sel_data_msg"
+                                    style="font-size: 18px;color: rgb(251,5,5);"></label>
+                            </form>
+
+                        </div>
+                        <div class="col">
+                            <textarea style="margin-top: 12px; height: 70%;
+                            width: 95%; "></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="tab-pane" role="tabpanel" id="tab-2">
+                <div class="container" style="max-width: 2500px;padding-left: 0;padding-right: 0;">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-5 col-xl-9">
+                            <form class="text-center border rounded"
+                                style="background-color: #77adeb;margin-top: 10px;height: 199px;">
+                                <div class="form-group text-center" style="margin-bottom: 0;margin-top: 50px;"><label
+                                        style="padding-right: 20px;padding-left: 30px;font-size: 22px;padding-top: 17px;margin-top: -6px;"></label>
+                                    <div class="input-group" style="margin: 0 auto;width: 90%;">
+                                        <div class="float-left" style="height: 75px;width: auto;padding: 8px;">
+                                            <form action="/time">
+                                                <label class="float-left" style="margin-top: 5px;">Timp local&nbsp; &nbsp;</label>
+                                                <input type="text" name="time" value="Mickey" id="t2">
+                                                <input style="display: none;" type="text" name="Set_time" value="Mickey"
+                                                    id="t1">
+                                                <label >&nbsp; &nbsp; Timp server&nbsp;</label>
+                                                <input type="text" name="time" value="Server"
+                                                    id="ts2">
+                                                    <input type="submit" value="Sincronizeaza">
+                                                </form>
+                                        </div>
+                                    </div>
+                                </div><label class="text-center" id="sel_data_msg"
+                                    style="font-size: 18px;color: rgb(251,5,5);"></label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane" role="tabpanel" id="tab-3">
+                <div class="container" style="padding-left: 0;padding-right: 0;">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-xl-12">
+                            <form action="">
+                                <div class=" text-center" style="margin:50px;">
+
+                            </form>
+                        </div>
+                        <div class="input-group" style="margin: 3rem;">
+                            <div id="cmd" class="input-group-prepend" style="margin-right: 5px; width: 250px;"><span
+                                    class="input-group-text"
+                                    style="width: 100%;margin: 2px;border-radius: 0.25rem !important;height: 36px;">Comanda
+                                    backup </span>
+                            </div><input class="form-control" type="text" required="" minlength="1" autocomplete="on"
+                                style="height: 40px;cursor: auto;margin-right: 5px">
+                            <div class="input-group-append" style="margin-right: 3rem"><button class="btn btn-primary"
+                                    type="button" id="edit_db_bk"
+                                    style="margin-right: 3rem;color: rgb(4,4,4); width: 191px;">Editează</button>
+                            </div>
+                        </div>
+                        <form action="download" method="get" enctype="multipart/form-data" id="bd_bk_file_read"
+                            style="margin: 3rem;">
+                            <div class="input-group">
+                                <div id="get" class="input-group-prepend" style="margin-right: 5px;"><span
+                                        class="input-group-text"
+                                        style="width: auto;margin: 2px;border-radius: 0.25rem !important;height: 36px;">Descărcare
+                                        fișier backup_db*.sql</span>
+                                </div>
+                                <input class="form-control" type="text" id="nume_sql" name="fileToread"
+                                    value="backup.sql"
+                                    style="color: rgb(53,37,231); float: right;height: 40px;padding: 5px;margin-right: 5px;">
+                                <div class="input-group-append"><button class="btn btn-primary" type="submit"
+                                        form="bd_bk_file_read" id="read_db_bk"
+                                        style="width: 191px;color: rgb(4,4,4);border-radius: 0.25rem !important;">Descarcă</button>
+                                </div>
+                                <script>
+                                    document.getElementById("cmd").style.width = document.getElementById("get").offsetWidth + 'px';
+                                </script>
+
+                            </div>
+                        </form>
+                        <form action="service" method="post" enctype="multipart/form-data" id="bd_bk_file_form"
+                            style="margin-right: 3rem;">
+                            <div class="input-group" style="margin-left: 3rem;">
+                                <div id="inc" class="input-group-prepend" style="margin-right: 5px;"><span
+                                        class="input-group-text"
+                                        style="width: 100%;margin: 2px;border-radius: 0.25rem !important;height: 36px;">Încărcare
+                                        fișier backup_db*.sql</span>
+                                </div>
+                                <input class="form-control" type="file" id="selecteaza_sql" name="fileToUpload"
+                                    style="color: rgb(53,37,231); float: right;height: 40px;padding: 5px;margin-right: 5px">
+                                <div class="input-group-append"><button class="btn btn-primary" type="submit"
+                                        form="bd_bk_file_form" id="load_db_bk"
+                                        style="margin-right: 3rem; width: 191px;color: rgb(4,4,4);">Restaurează</button>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+                            document.getElementById("inc").style.width = document.getElementById("get").offsetWidth + 'px';
+                        </script>
+                        <div style="text-align: center;">
+                            <label class="text-center" id="sel_file_msg"
+                                style="font-size: 18px;color: rgb(251,5,5);margin:auto;"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane" role="tabpanel" id="tab-4">
+            <div class="container" style="padding-left: 0;padding-right: 0;">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <form action="service" method="post" enctype="multipart/form-data" id="upd_file_form"
+                            style="margin: auto;margin-top: 3rem; max-width: 900px;">
+                            <div class="input-group" style="margin-left: 3rem;">
+                                <div class="input-group-prepend" style="margin-right: 5px;"><span
+                                        class="input-group-text"
+                                        style="width: auto;margin: 2px;border-radius: 0.25rem !important;height: 36px;">Încărcare
+                                        fișier update (terra*.tgz)</span>
+                                </div>
+                                <input class="form-control" type="file" id="incarca_upd" name="fileToUpload"
+                                    style="color: rgb(53,37,231); float: right;height: 40px;padding: 5px;">
+                                <div class="input-group-append"><button class="btn btn-primary" type="submit"
+                                        form="upd_file_form" id="load_upd"
+                                        style="margin-right: 3rem; width: 191px;color: rgb(4,4,4);">Update
+                                        App</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <%- include('partials/index_footer.ejs'); -%>
+        <script src="assets/js/comun.js"></script>
+        <script src="assets/js/admin.js"></script>
+        </body>
+
+        </html>

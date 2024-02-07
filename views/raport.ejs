@@ -1,0 +1,92 @@
+<%- include('partials/index_head.ejs')%>
+
+    <div class="container-fluid" style="padding-right: 0px;padding-left: 0px;">
+        <div class="my_row rapo_row myfix" style="z-index: 1;margin-top: 56px;background-color: #77adeb;">
+            <div class="my_col" style="height: 32px;background-color: #77adeb00;">
+                <div class="float-left" id="perioada" style="height: 34px;margin: 2px;">
+                    <div class="float-left" style="margin-left: 11px;"><label class="text-left float-left"
+                            style="margin-top: 6px;">Înregistrări de la </label><input type="text" id="datepicker" />
+                    </div>
+                    <div class="float-right"><label class="float-left" style="margin-top: 6px;">  pâna la
+                             </label><input type="text" id="datepicker2" />
+                    </div>
+                </div><button class="btn btn-primary float-left" type="button" id="incarca_raportari"
+                    style="color: rgb(4,4,4);height: 30px;padding-top: 3px;margin-top: 5px;">   Încarcă</button>
+                <button class="btn btn-primary float-left" type="button" id="raport_lunar"
+                    style="color: rgb(4,4,4);height: 30px;padding-top: 3px;margin-top: 5px;margin-left: 32px;">   Raport
+                    lunar</button>
+
+                <div class="float-left" style="height: 26px;margin-top: 8px;margin-left: 7px;"><span id="sel_data_msg"
+                        style="color: rgb(255,0,0);">Se conectează la server...</span></div>
+            </div>
+            <div class="text-right my_col" style="height: 30px;width: auto;">
+
+                <div class="text-justify" style="height: 33px;"><button class="btn btn-primary float-right"
+                        type="button" id="exporta_inregistrari"
+                        style="margin-right: 8px;color: rgb(0,0,0);height: 30px;"><i class="fa fa-file-excel-o"
+                            style="font-size: 20px;margin-top: 0px;"></i>   Export</button>
+                    <button class="btn btn-primary float-right" type="button" id="printeaza_inregistrari"
+                        style="color: rgb(4,4,4);height: 30px;"><i class="fa fa-print"
+                            style="font-size: 20px;color: rgb(0,0,0);margin-top: 0px;"></i>   Print</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="table-responsive table-borderless text-center pane">
+            <table class="tabelr table table-bordered table-dark tabel_raportari" id="tabelr" style="margin-top: 94px">
+                <thead class="text-primary" style="color: rgb(235,242,250);background-color: #444444!important;">
+                    <tr class="text-center">
+                        <th class="text-center text-light" style="width: 35px;"><span
+                                style="color: rgb(235,242,250);"><strong>Sel.</strong><br></span><span><input
+                                    type="checkbox" class="check_all"></span></th>
+                        <th class="sort" style="width: 34px!important;"><span><i class="fa fa-search-plus"></th>
+
+                        <th class="sort" style="width: 34px;">
+                            <span><strong>Nr.</strong><br></span><span><strong>Crt.</strong><br></span>
+                        </th>
+                        <th class="sort">Nr. magazin<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Nume magazin<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Localitate<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Model<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Versiune sw<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Serie echipament<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Downtime<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Nr. erori<br>minore<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Nr. erori<br>majore<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Responsabil<i class="fa fa-sort float-right"></i></th>
+                        <th class="sort">Nr. baloti<br>interval<i class="fa fa-sort float-right"></i></th>
+                    </tr>
+                    <tr class="text-center" style="background-color: #d6dee7; ">
+                        <th class="text-center"><input id="fck" type="text" class="filter"></th>
+                        <th class="text-center"><input id="lens" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fid" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fnrmag" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fnume" type="text" class="filter"></th>
+                        <th class="text-center"><input id="flocalitate" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fmodel" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fvsw" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fserie" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fdownt" type="text" class="filter"></th>
+                        <th class="text-center"><input id="femi" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fema" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fresp" type="text" class="filter"></th>
+                        <th class="text-center"><input id="fnrb" type="text" class="filter"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script id="tmpl_monetar" type="text/x-jsrender">
+        <%- include ('partials/exp_raportari.ejs') %>
+    </script>
+    
+
+    <%- include('partials/index_footer.ejs') %>
+        <script src="assets/js/comun.js"></script>
+        <script src="assets/js/raport.js"></script>
+        </body>
+
+        </html>

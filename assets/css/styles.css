@@ -1,0 +1,772 @@
+/* Style The Dropdown Button */
+
+@media print {
+  .butoane {
+    display: none !important;
+  }
+
+  .print_only {
+    display: block !important;
+  }
+}
+
+.print_only {
+  display: none;
+}
+
+.tcard {
+  text-align: center;
+}
+
+.card {
+  display: inline-block;
+  width: 345px;
+  height: 230px;
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.conta {
+  padding: 16px;
+  height: -webkit-fill-available;
+}
+
+.nav_link:hover {
+  color: rgb(33, 38, 42);
+  margin-top: -5px;
+  max-height: 30px;
+  text-decoration: none;
+}
+
+.nav_link {
+  color: rgb(33, 38, 42);
+  margin-top: -5px;
+  max-height: 30px;
+  text-decoration: none;
+}
+
+pre {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.dropbtn {
+  color: black;
+  padding: 16px;
+  font-size: 23px;
+  border: none;
+  height: 62px;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: black
+}
+
+.nav-link {
+  font-size: 18px;
+  color: rgb(33, 38, 42);
+}
+
+.has_child:after {
+  color: #444;
+  content: ' ▾';
+  font-size: 20px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.expm23 {
+  border-left: 0px !important;
+  border-right: 0px !important;
+  border-top: 0px !important;
+  border-bottom: 0px !important;
+  text-align: center !important;
+}
+
+.h_monede {
+  display: none;
+}
+
+.s_monede {
+  display: initial;
+}
+
+.expm3 {
+  border-left: 0px !important;
+  border-right: 0px !important;
+  border-top: 0px !important;
+  border-bottom: 0px !important;
+  text-align: center !important;
+}
+
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ebf2fa;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 12;
+}
+
+/* Links inside the dropdown */
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.th {
+  color: rgb(235, 242, 250);
+}
+
+/* Change color of dropdown links on hover */
+
+.dropdown-content a:hover {
+  background-color: rgb(119, 173, 235);
+}
+
+/* Show the dropdown menu on hover */
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+
+.dropdown {
+  background: #ebf2fa !important;
+}
+
+.nav-link:hover {
+  color: rgb(119, 173, 235);
+}
+
+.dropbtn:hover {
+  background: rgb(119, 173, 235);
+}
+
+/*.has_child_div{ display: none;}*/
+
+.table th,
+.table td {
+  padding: 0.1rem;
+  vertical-align: middle;
+  border: 1px solid #AAAAAA;
+}
+
+.tg td {
+  height: 4rem;
+}
+
+.transparent {
+  opacity: 0.1;
+}
+
+.myfix {
+  position: fixed;
+  max-width: calc(100% - 30px);
+}
+
+.table tfoot td {
+  color: rgb(235, 242, 250);
+  background-color: #444444 !important;
+  vertical-align: middle;
+  border: 1px solid #AAAAAA;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
+.log_tabel td {
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
+.monitor_tabel td {
+  padding: 7px;
+}
+
+.table tbody td {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.red {
+  color: red
+}
+
+.rckbox {
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  margin-top: 4px;
+  margin-left: 22px;
+  margin-right: 22px;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid rgb(170, 170, 170);
+}
+
+.rckbox:checked {
+  background: rgb(68, 68, 68);
+  ;
+}
+
+a {
+  outline: 0;
+}
+
+.tabelr thead th {
+  color: rgb(235, 242, 250);
+}
+
+.tabelr td {
+  height: 4rem;
+}
+
+/*
+.tabel_raportari td:nth-child(n+3):nth-child(-n+4) {
+  text-align: left;
+}
+*/
+
+.tabel_raportari td:nth-child(16) {
+  text-align: right;
+}
+
+
+.dropdown-item {
+  background-color: #ebf2fa !important;
+  font-size: 18px;
+  color: rgb(4, 4, 4) !important;
+}
+
+.activep {
+  background-color: rgb(119, 173, 235);
+  font-size: 18px;
+  color: rgb(4, 4, 4) !important;
+}
+
+.usermenu {
+  position: fixed !important;
+  right: 90px !important;
+  color: #0a0a0a;
+  top: -56px;
+}
+
+.l2_tabel td{
+/*  border: none;*/
+  text-align: center;
+  font-size:medium;
+}
+
+.clock {
+  position: fixed !important;
+  right: 17px !important;
+}
+
+.tabel_raportari td:nth-child(1) {
+  cursor: pointer;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: rgb(119, 173, 235);
+  color: #fff;
+}
+
+.nav-tabs .nav-link {
+  color: rgb(13, 13, 13);
+}
+
+.input-group-text {
+  width: 112px;
+  margin: 2px;
+  border-radius: 0.25rem !important;
+  height: 36px;
+}
+
+.container {
+  margin-bottom: 35px;
+}
+
+.table-responsive {
+  margin-bottom: 35px;
+}
+
+.tfooter {
+  background-color: #444444;
+  line-height: 22px;
+}
+
+.footer {
+  position: fixed !important;
+  bottom: 0px;
+  line-height: 12px;
+  left: 0px;
+  width: calc(100% - 30px);
+  text-align: center;
+  margin-left: 15px;
+  z-index: 1000;
+  color: white;
+  background-color: rgb(119, 173, 235)
+}
+
+.table thead th {
+  vertical-align: middle;
+  border: 1px solid #AAAAAA;
+  color: rgb(235, 242, 250);
+}
+
+.fa {
+  margin-top: 4px;
+  margin-right: 1px;
+}
+
+.table {
+  width: 100%;
+  font-size: 0.825rem;
+  margin-bottom: 0rem;
+  background-color: transparent;
+}
+
+.transparent {
+  opacity: 0.0;
+  position: absolute;
+}
+
+.monetar {
+  background-color: rgb(255, 255, 255);
+}
+
+.hasDatepicker {
+  width: 157px;
+  margin: 2px;
+  height: 30px;
+  margin-top: 3px;
+  position: relative;
+  z-index: 15;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.btn-primary:hover {
+  color: #295685;
+  background-color: #2b4764;
+  border-color: #28415b;
+}
+
+.btn-primary {
+  color: rgb(4, 4, 4);
+}
+
+.rounded {
+  border-radius: 1 rem !important;
+}
+
+th {
+  text-align: inherit;
+}
+
+.col {
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+.monetar {
+  background-color: #fefeff;
+  border: 0;
+}
+
+.ascuns {
+  display: none !important;
+}
+
+.vizibil {
+  display: initial;
+}
+
+.tbl_monetar {
+  border: none;
+  border-collapse: collapse;
+  border: 1px solid rgb(230, 230, 230);
+}
+
+.mf {
+  height: 18px;
+  width: 100%;
+  max-width: 100%;
+  padding: 2px 0px;
+  border: none;
+  border-color: transparent;
+  background: none;
+  text-align: right;
+  font-size: 16px;
+  font-weight: normal;
+  /*  font-family: 'Times New Roman', Times, serif;*/
+  pointer-events: none;
+}
+
+.ui-dialog {
+  z-index: 10000 !important;
+}
+
+.editdt {
+  height: 25px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.filter {
+  height: 25px;
+  width: 100%;
+  text-transform: uppercase;
+  max-width: 100%;
+}
+
+.filterN {
+  height: 25px;
+  width: 100%;
+  text-transform: uppercase;
+  max-width: 100%;
+}
+
+.leftButton
+{
+    margin-right: 170px !important;
+}
+
+.odd {
+  background-color: #edeeef;
+}
+
+.even {
+  background-color: #fefeff;
+}
+
+.ns.odd {
+  background-color: #efefed;
+}
+
+.ns.even {
+  background-color: #fefefe;
+}
+
+.my_row {
+  display: table;
+  width: 100%;
+}
+
+.my_col {
+  display: table-cell;
+  background-color: rgb(119, 173, 235);
+  text-align: center;
+}
+
+.tabel tr:nth-child(even)>td,
+.tabel tr.even>td {
+  background-color: #fefeff;
+}
+
+.tabel tr:nth-child(odd)>td,
+.tabel tr.odd>td {
+  background-color: #e9f2fb;
+}
+
+.tabel tr.hidden {
+  display: none;
+}
+
+.boxer {
+  display: table;
+  border-collapse: collapse;
+}
+
+.boxer .box-row {
+  display: table-row;
+}
+
+.boxer .box {
+  display: table-cell;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid black;
+}
+
+div.greenTable {
+  border: 1px solid #AAAAAA;
+  float: left;
+  background-color: #FEFEFE;
+  width: 366px;
+  text-align: right;
+  line-height: 22px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAuCAIAAABmjeQ9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAcSURBVBhXY3j//i0TAwMDLTDDv3//sIlTjhkYACi9Bh6uTxmQAAAAAElFTkSuQmCC");
+  border-collapse: collapse;
+}
+
+.divTable.greenTable .divTableHeading {
+  border: 1px solid #AAAAAA;
+  text-align: center;
+  border-bottom: 1px solid #444444;
+}
+
+.divTable.greenTable .divTableRow:nth-child(even) {
+  /*  background: #efefed;*/
+}
+
+.divTable.greenTable .divTableCell,
+.divTable.blueTable .divTableHead {
+  border: 1px solid #AAAAAA;
+  padding: 0px 1px;
+}
+
+div.redTable {
+  border: 1px solid #AAAAAA;
+  float: left;
+  background-color: #FEFEFE;
+  width: 316px;
+  text-align: right;
+  line-height: 22px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAuCAIAAABmjeQ9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAcSURBVBhXY3j//i0TAwMDLTDDv3//sIlTjhkYACi9Bh6uTxmQAAAAAElFTkSuQmCC");
+  border-collapse: collapse;
+}
+
+.divTable.redTable .divTableHeading {
+  border: 1px solid #AAAAAA;
+  text-align: center;
+  border-bottom: 1px solid #444444;
+}
+
+.divTable.redTable .divTableRow:nth-child(even) {
+  /*  background: #efefed;*/
+}
+
+.divTable.redTable .divTableCell,
+.divTable.blueTable .divTableHead {
+  border: 1px solid #AAAAAA;
+  padding: 0px 1px;
+}
+
+div.blueTable {
+  border: 1px solid #AAAAAA;
+  background-color: #FEFEFE;
+  width: 466px;
+  text-align: right;
+  line-height: 22px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAuCAIAAABmjeQ9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAcSURBVBhXY3j//i0TAwMDLTDDv3//sIlTjhkYACi9Bh6uTxmQAAAAAElFTkSuQmCC");
+  border-collapse: collapse;
+}
+
+.divTable.blueTable .divTableRow:nth-child(even) {
+  /*  background: #efefed;*/
+}
+
+.divTableHead1 {
+  width: 105px;
+  text-align: center;
+  border: 1px solid #98a2ac;
+  background: #dddada;
+  display: table-cell;
+}
+
+.divTableHead2 {
+  width: 105px;
+  background: #dddada;
+  text-align: center;
+  border: 1px solid #98a2ac;
+  display: table-cell;
+}
+
+.divTableHead3 {
+  background: #dddada;
+  width: 50px;
+  border: 1px solid #98a2ac;
+  text-align: center;
+  display: table-cell;
+}
+
+.divTableHead6 {
+  background: #dddada;
+  width: 105px;
+  text-align: center;
+  border: 1px solid #98a2ac;
+  display: table-cell;
+}
+
+.divTable.blueTable .divTableCell,
+.divTable.blueTable .divTableHead {
+  border: 1px solid #AAAAAA;
+  padding: 0px 1px;
+}
+
+.divTable.blueTable .divTableBody .divTableCell {
+  font-size: 15px;
+}
+
+.divTable.blueTable .divTableHeading {
+  border-bottom: 1px solid #444444;
+}
+
+.divTable.blueTable .divTableHeading .divTableHead {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.blueTable .tableFootStyle {
+  font-size: 15px;
+}
+
+/* DivTable.com */
+
+.divTable {
+  display: table;
+}
+
+.divTableRow {
+  display: table-row;
+}
+
+.divTableHeading {
+  display: table-header-group;
+}
+
+.divTableCell,
+.divTableHead {
+  display: table-cell;
+}
+
+.divTableHeading {
+  display: table-header-group;
+}
+
+.divTableFoot {
+  display: table-footer-group;
+}
+
+.divTableBody {
+  display: table-row-group;
+}
+
+.grid-container {
+  display: grid;
+  margin-left: 70px;
+  align-content: left;
+  width: 700px;
+  grid-template-columns: 500px 200px;
+  grid-template-rows: 30px max-content 70px;
+  grid-template-areas: "TitluMonetar TitluMonetar""TabelMonetar ButoaneMonetar""DetaliiMonetar DetaliiMonetar";
+}
+
+.TitluMonetar {
+  grid-area: TitluMonetar;
+}
+
+.TabelMonetar {
+  grid-area: TabelMonetar;
+}
+
+.ButoaneMonetar {
+  grid-area: ButoaneMonetar;
+  text-align: center;
+  position: relative;
+  z-index: 0;
+}
+
+.DetaliiMonetar {
+  grid-area: DetaliiMonetar;
+  margin-top: 20px;
+}
+
+.vertical-center {
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.det-grid-container {
+  display: grid;
+  width: 705px;
+  text-align: left;
+  grid-template-columns: 1fr 190px;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: "detOperator detData""detEchipament detOraS""detModL detOraf";
+}
+
+.det-detData {
+  grid-area: det-detData;
+}
+
+.det-detOraf {
+  grid-area: det-detOraf;
+}
+
+.det-detOraS {
+  grid-area: det-detOraS;
+}
+
+.det-detOperator {
+  grid-area: det-detOperator;
+}
+
+.det-detEchipament {
+  grid-area: det-detEchipament;
+}
+
+.det-detModL {
+  grid-area: det-detModL;
+}
+
+.hide {
+  display: none !important;
+}
+
+.total-grid-container {
+  display: grid;
+  margin-left: 70px;
+  align-content: left;
+  width: 830px;
+  grid-template-columns: 1fr 316px;
+  grid-template-rows: 55px 1fr;
+  grid-template-areas: "a b""bill coin";
+}
+
+.total-bill {
+  grid-area: total-bill;
+}
+
+.total-coin {
+  grid-area: total-coin;
+}
+
+.trmonetar {
+  background-color: #ebf2fa;
+  margin: auto;
+}
+
+.filtru_inactive {
+  color: grey !important;
+}
+
+.filtru_active {
+  color: green !important;
+  border: 3px solid green;
+}

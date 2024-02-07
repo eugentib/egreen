@@ -1,0 +1,82 @@
+<%- include('partials/index_head.ejs')%>
+    <div style="margin-top: 56px;">
+        <ul class="nav nav-tabs" id="tablink">
+            <li class="nav-item" data-cmd="get_from_db_dturi"><a class="nav-link active" role="tab" data-toggle="tab"
+                    href="#tab-1">Înrolare
+                    Echipament</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" role="tabpanel" id="tab-1">
+                <div class="container" style="max-width: 2500px;padding-left: 0;padding-right: 0;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="table-responsive table-bordered text-center" style="margin-top: 10px;">
+                                <table class="dt_tabel table table-bordered table-dark tg" id="dt_tabel">
+                                    <thead class="text-primary"
+                                        style="color: rgb(235,242,250);background-color: #444444!important;">
+                                        <tr class="text-center">
+                                            <th class="text-center text-light" style="width: 35px;"><span
+                                                    style="color: rgb(235,242,250);"><strong>Edit</strong><br></span>
+                                                <!--    <span><input type="checkbox" class="check_all"></span> -->
+                                            </th>
+                                            <th class="text-center sort" style="width: 50px;">
+                                                <span><strong>Nr.</strong><br></span><span><strong>Crt.</strong><br></span>
+                                            </th>
+                                            <th class="sort">&nbsp;
+                                                MAC<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Model<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Serie<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                MIF<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Judet<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Localitate<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Strada<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Nume magazin<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Nr. magazin<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Responsabil<i class="fa fa-sort float-right"></i></th>
+                                            <th class="sort">&nbsp;
+                                                Tel. responsabil<i class="fa fa-sort float-right"></i></th>
+                                        </tr>
+                                        <tr class="text-center text-light" style="background-color: #d6dee7; ">
+                                            <th class="text-center"><input id="fckdt" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fidt" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fmac" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fmodel" type="text" class="filter">
+                                            </th>
+                                            <th class="text-center"><input id="fserie" type="text" class="filter">
+                                            </th>
+                                            <th class="text-center"><input id="fmif" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="fjudet" type="text" class="filter"></th>
+                                            <th class="text-center"><input id="flocalitate" type="text" class="filter">
+                                            <th class="text-center"><input id="fstrada" type="text" class="filter">
+                                            <th class="text-center"><input id="fnume" type="text" class="filter">
+                                            <th class="text-center"><input id="fnumarmag" type="text" class="filter">
+                                            <th class="text-center"><input id="fresp" type="text" class="filter">
+                                            <th class="text-center"><input id="ftelresp" type="text" class="filter">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%- include('partials/index_footer.ejs') %>
+        <script src="assets/js/comun.js"></script>
+        <script src="assets/js/inrolare.js"></script>
+        </body>
+
+        </html>

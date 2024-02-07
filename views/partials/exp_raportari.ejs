@@ -1,0 +1,90 @@
+{{for disp_data}}
+&nbsp;<br><span
+    style="float:left; color: #444444!important">&nbsp;&nbsp;&nbsp;&nbsp;{{:d_id}}/{{:len}}&nbsp;&nbsp;&nbsp;&nbsp;<i
+        class="fa fa-crop"></i></span>
+<div class="grid-container">
+    <div class="TitluMonetar">Monetar {{:id_monetar}} </div>
+    {{if tip=='fit'}}
+    <div class="TabelMonetar">
+        <div class="divTable blueTable float-left">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead1">Denominatie</div>
+                    <div class="divTableHead2">Nr. bancnote</div>
+                    <div class="divTableHead3">&nbsp;&nbsp;Fit&nbsp;&nbsp;</div>
+                    <div class="divTableHead3">Unfit</div>
+                    <div class="divTableHead6">Valoare</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                {{for denominatii}}
+                <div class="divTableRow {{:arata}}">
+                    <div class="divTableCell">{{:denominatie}}</div>
+                    <div class="divTableCell">{{:total_b}}</div>
+                    <div class="divTableCell">{{:FIT}}
+                    </div>
+                    <div class="divTableCell">{{:UNFIT}}
+                    </div>
+                    <div class="divTableCell">{{:total_s}}</div>
+                </div>
+                {{/for}}
+                <div class="divTableRow">
+                    <div class="divTableCell" style="text-align:left">&nbsp;&nbsp;Total</div>
+                    <div class="divTableCell">{{:total_bills}}</div>
+                    <div class="divTableCell">{{:total_FIT}}</div>
+                    <div class="divTableCell">{{:total_UNFIT}}</div>
+                    <div class="divTableCell">{{:total_suma}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="TabelMonetar">
+        <div class="divTable greenTable float-left">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead1">Denominatie</div>
+                    <div class="divTableHead2">Nr. bancnote</div>
+                    <div class="divTableHead6">Valoare</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                {{for denominatii}}
+                <div class="divTableRow">
+                    <div class="divTableCell">{{:denominatie}}</div>
+                    <div class="divTableCell">{{:MIX}}</div>
+                    <div class="divTableCell">{{:total_s}}</div>
+                </div>
+                {{/for}}
+                <div class="divTableRow">
+                    <div class="divTableCell" style="text-align:left">&nbsp;&nbsp;Total</div>
+                    <div class="divTableCell">{{:total_bills}}</div>
+                    <div class="divTableCell">{{:total_suma}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    &nbsp;<br>&nbsp;
+    <div class="DetaliiMonetar">
+
+        <div class="det-grid-container">
+            <div class="detOperator">Operator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{:operator}}</div>
+            <div class="detData">Data procesare : {{:data}}</div>
+            <div class="detEchipament">Echipament&nbsp;&nbsp;&nbsp;: {{:echipament}}</div>
+            <div class="detOraS">Ora inceput&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{:ora_s}}</div>
+            <div class="detModL">Mod de lucru: {{:mod_lucru}}</div>
+            <div class="detOraf">Ora sfarsit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                {{:ora_f}}</div>
+        </div>
+    </div>
+</div>
+{{/for}}
+&nbsp;<br><span style="float:left; color: #444444!important">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+        class="fa fa-crop"></i></span>
+</div>
+&nbsp;<br>&nbsp;<br>
+<span style="margin-left:70px; font-size:18px; float:left; color:#444444!important">Valoare procesată :
+    {{:valoare}} {{:valuta}}</span>
+&nbsp;<br>&nbsp;<br>
+&nbsp;<br>&nbsp;<br>

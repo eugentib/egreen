@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>e-GREEN</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/fonts/Lato.css">
+    <link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Features-Blue.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui-timepicker-addon.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/dropdownchosen.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/data_table.css">
+    <script src="assets/js/login.js"></script>
+</head>
+
+<body style="background-color: #ebf2fa;margin-right: 15px;margin-left: 15px;min-width: 1240px;">
+    <div>
+
+        <nav class="navbar navbar-light navbar-expand-md fixed-top navbar-fixed-top"
+            style="background-color: #ebf2fa;padding-top: 10px;height: 56px;padding-bottom: 16px;margin-right: 15px;margin-left: 15px;padding-right: 18px;padding-left: 18px;z-index: 1116;">
+
+            <div class="container-fluid"><a class="navbar-brand" href="/"><img src="assets/img/egreen_logo.jpeg"
+                        style="height: 42px;margin-left: -32px;"></a>
+                <div class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle
+                        navigation</span><span class="navbar-toggler-icon"></span></div>
+                <div class="collapse navbar-collapse" id="navcol-1"
+                    style="background-color: rgba(120,173,235,0);margin-right: -30px;">
+                    <div class="dropdown">
+                        <div class="dropbtn inrolare" onclick="location.href='inrolare';">
+                            <a href="inrolare" class="nav_link">Înrolare</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn config" onclick="location.href='config';">
+                            <a href="config" class="nav_link">Configurare</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn general" onclick="location.href='general';">
+                            <a href="general" class="nav_link">Tablou general</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropbtn raportari" onclick="location.href='raportari';">
+                            <a href="raportari" class="nav_link">Raportari</a>
+                        </div>
+                    </div>
+                    <div class="nav navbar-nav mr-auto navbar-fixed-top"></div>
+                    <div id="usermenu" class="usermenu" onmouseover="mouseoverdarkicon()"
+                        onmouseout="mouseoutofdarkicon()">
+                        <label>Logout</label>
+                    </div> <span onclick="change_password()" class="navbar-text"><i class="fa fa-user"
+                            onclick="change_password()"
+                            style="cursor: pointer; color: #0a0a0a;margin-bottom: 22px;margin-right: 5px;"></i></span>
+                    <span class="navbar-text" id="user"
+                        style="cursor: default;height: 20px;padding-top: 0;padding-bottom: 0;margin-bottom: 20px;margin-right: 0px;color: #010101;"></span>
+                    <span class="clock" id="clock" 
+                        style="height: 20px;margin-top: 26px;color: #0a0a0a;font-size: 16px;"></span>
+                </div>
+            </div>
+        </nav>
+    </div>

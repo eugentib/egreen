@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>e-GREEN</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/fonts/Lato.css">
+    <link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Features-Blue.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+
+<body style="background-color: rgb(235,242,250);">
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md fixed-top navbar-fixed-top"
+            style="background-color: #ebf2fa;padding-top: 10px;height: 56px;padding-bottom: 16px;margin-right: 15px;margin-left: 15px;padding-right: 18px;padding-left: 18px;">
+            <div class="container-fluid"><a class="navbar-brand" href="index.html"><img src="assets/img/egreen_logo.jpeg"
+                        style="height: 42px;margin-left: -32px;"></a><button class="navbar-toggler"
+                    data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1"
+                    style="background-color: rgba(120,173,235,0);margin-right: -30px;"></div>
+            </div>
+        </nav>
+    </div>
+    <div class="row"></div>
+    <div>
+        <div class="container" style="width: 459px;margin-top: 179px;" onKeyPress="return checkSubmit(event)">
+            <form class="text-center border rounded" id="manual_imput_form"
+                style="padding: 19px;background-color: #77adeb;margin-right: -5px;"><label
+                    style="font-size: 22px;width: 100%;margin-top: -10px;">Autentificare</label>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text"
+                            style="width: 112px;margin: 2px;border-radius: 0.25rem !important;height: 36px;">Utilizator</span>
+                    </div><input class="form-control" type="text" minlength="1" autofocus="" autocomplete="off"
+                        id="user" style="margin: 2px;cursor: auto;">
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text"
+                            style="width: 112px;margin: 2px;border-radius: 0.25rem !important;height: 36px;">Parola</span>
+                    </div><input class="form-control" type="password" id="parola" style="margin: 2px;cursor: auto;">
+                    <div class="input-group-append"></div>
+                </div><button class="btn btn-primary" type="button" id="login_btn" onclick="get_login_data()"
+                    style="color: rgb(4,4,4);margin-top: 13px;width:120px"> Login </button>
+                <p id="raspuns_login"></p>
+            </form>
+        </div>
+    </div>
+
+
+    <%- include('partials/index_footer.ejs'); -%>
+    <script src="assets/js/comun.js"></script>
+    <script src="assets/js/login.js"></script>
+
+</body>
+
+</html>
