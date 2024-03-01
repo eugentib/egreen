@@ -18,6 +18,12 @@
   text-align: center;
 }
 
+.ckboxBaloti,
+.ckboxErori,
+.ckboxConexiune {
+  margin-right: 8px;
+}
+
 .card {
   display: inline-block;
   width: 345px;
@@ -265,10 +271,10 @@ a {
   top: -56px;
 }
 
-.l2_tabel td{
-/*  border: none;*/
+.l2_tabel td {
+  /*  border: none;*/
   text-align: center;
-  font-size:medium;
+  font-size: medium;
 }
 
 .clock {
@@ -446,9 +452,8 @@ th {
   max-width: 100%;
 }
 
-.leftButton
-{
-    margin-right: 170px !important;
+.leftButton {
+  margin-right: 170px !important;
 }
 
 .odd {
@@ -670,7 +675,7 @@ div.blueTable {
   width: 700px;
   grid-template-columns: 500px 200px;
   grid-template-rows: 30px max-content 70px;
-  grid-template-areas: "TitluMonetar TitluMonetar""TabelMonetar ButoaneMonetar""DetaliiMonetar DetaliiMonetar";
+  grid-template-areas: "TitluMonetar TitluMonetar" "TabelMonetar ButoaneMonetar" "DetaliiMonetar DetaliiMonetar";
 }
 
 .TitluMonetar {
@@ -708,7 +713,7 @@ div.blueTable {
   text-align: left;
   grid-template-columns: 1fr 190px;
   grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas: "detOperator detData""detEchipament detOraS""detModL detOraf";
+  grid-template-areas: "detOperator detData" "detEchipament detOraS" "detModL detOraf";
 }
 
 .det-detData {
@@ -746,7 +751,7 @@ div.blueTable {
   width: 830px;
   grid-template-columns: 1fr 316px;
   grid-template-rows: 55px 1fr;
-  grid-template-areas: "a b""bill coin";
+  grid-template-areas: "a b" "bill coin";
 }
 
 .total-bill {

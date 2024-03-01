@@ -104,7 +104,7 @@ function insert_row_devices(date, dataset) {
 
 
 function array_to_devices(inregistrari) {        //Se populeaza tabelul din procesare cu datele venite de la server
-    var dataset = ['fidt', 'fmac', 'fmodel', 'fvsw', 'flocalitate', 'fnumemag', 'fnumarmag', 'fsatus', 'fsatusr', 'fgrinc', 'fgre', 'fnrb', 'fnrblc', 'flcd', 'frssi'];
+    var dataset = ['fid', 'fmac', 'fmodel', 'fvsw', 'flocalitate', 'fnumemag', 'fnumarmag', 'fsatus', 'fsatusr', 'fgrinc', 'fgre', 'fnrb', 'fnrblc', 'flcd', 'frssi'];
     console.log(inregistrari)
     $("#dt_tabel tbody").empty();
     for (var i = 0; i < inregistrari.length; i++) {

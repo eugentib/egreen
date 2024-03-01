@@ -3,6 +3,20 @@
 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
 var user = localStorage.getItem('n'); functia = localStorage.getItem('r');     //vor fi luate din sesiune
 
+var $table = $('#dt_tabel');
+
+var floatParam = {
+    // thead cells
+    headerCellSelector: 'tr:visible:first>*:visible',
+    top: 56,
+    useAbsolutePositioning: false,
+    zIndex: 10,
+    //    autoReflow: true,
+    //    position: 'fixed'
+};
+
+$table.floatThead(floatParam); //*/
+
 $("#user").html(user);
 
 function mouseoverusericon() {
@@ -36,6 +50,7 @@ var contentDivs = new Array();
 
 
 function datasiora(cand = Date.now(), separator = ' ora ', cs = true) {    //generez strig cu data si ora locale
+    if(cand == null) return '';
     return (new Date(cand)).toLocaleDateString('ro-RO').substring(0, 10) + separator + (new Date(cand)).toLocaleTimeString('ro-RO').substring(0, cs ? 10 : 5);
 }
 
@@ -247,6 +262,7 @@ if (!Object.prototype.forEach) {
 }
 
 function mysql2ro(mysqld) {
+    if(mysqld == null) return ' ';
     let data = mysqld.split(/[- .:T]/);
     if(data.length<3) return ' ';
     return [data[2], '-', data[1], '-' + data[0], ' ', data[3], ':', data[4]].join('');

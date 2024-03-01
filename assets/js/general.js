@@ -11,7 +11,6 @@ var floatParam = {
     //    autoReflow: true,
     //    position: 'fixed'
 };
-//if (page_name == 'preluare') floatParam.top = 56;
 
 $table.floatThead(floatParam); //*/
 
@@ -51,16 +50,18 @@ function update_mac_pl_c(data) {
 function update_mac_nrb(data) {
     $(selMacCol(data)).find(`td:eq(${nr_col + 2})`).html(data.nrb);
 }
+
 function update_mac_lcd(data) {
     if (data.status > 0) {
         let msg = 'EROARE<br>MINORA';
         let color = "yellow";
         if (data.status > 10) { msg = 'EROARE<br>MAJORA'; color = "red"; }
         $(selMacCol(data)).find(`td:eq(${nr_col - 2})`).html(msg).css("background-color", color);
-    }
+    }else if(data.status == 'OFFLINE') { $(selMacCol(data)).find(`td:eq(${nr_col - 2})`).html('OFFLINE').css("background-color", "orange"); }
     else { $(selMacCol(data)).find(`td:eq(${nr_col - 2})`).html('OK').css("background-color", $(selMacCol(data)).find(`td:eq(${nr_col - 3})`).css("background-color")); }
     $(selMacCol(data)).find(`td:eq(${nr_col + 3})`).html('<pre>' + data.lcd + '</pre>');
 }
+
 function update_mac_rssi(data) {
     $(selMacCol(data)).find(`td:eq(${nr_col + 4})`).html(data.rssi + ' dBm');
 }

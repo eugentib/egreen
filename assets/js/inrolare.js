@@ -1,5 +1,19 @@
 page_name = 'inrolare';
 
+var $table = $('#dt_tabel');
+
+var floatParam = {
+    // thead cells
+    headerCellSelector: 'tr:visible:first>*:visible',
+    top: 56,
+    useAbsolutePositioning: false,
+    zIndex: 10,
+    //    autoReflow: true,
+    //    position: 'fixed'
+};
+
+$table.floatThead(floatParam); //*/
+
 $(".nav-item").on('click', function (e) {
     //   e.preventDefault; 
     console.log($(this).data('cmd'));
@@ -37,7 +51,7 @@ function insert_row_dturi(date, dataset) {
 }
 
 function array_to_dturi(inregistrari) {        //Se populeaza tabelul din procesare cu datele venite de la server
-    var dataset = ['fidt', 'fmac', 'fmodel', 'fserie', 'fmif', 'fjudet', 'flocalitate', 'fstrada', 'fnume', 'fnumarmag', 'fresp', 'ftelresp'];
+    var dataset = ['fid', 'fmac', 'fmodel', 'fserie', 'fmif', 'fjudet', 'flocalitate', 'fstrada', 'fnume', 'fnumarmag', 'fresp', 'ftelresp'];
     console.log(inregistrari)
     $("#dt_tabel tbody").empty();
     for (var i = 0; i < inregistrari.length; i++) {

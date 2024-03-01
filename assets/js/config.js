@@ -93,8 +93,8 @@ function insert_row_dturi(date, dataset) {
     var row = '<tr class="ns" id="' + date.mac + '"><td data-filtru="fckdt"><i class="fa fa-pencil" aria-hidden="true"></i></td>';
 
     for (j = 0; j < adate.length; j++) {
-        if (j == 5) row += '<td data-filtru="' + dataset[j] + '" data-mysql="' + date[adate[j]] + '">' + datasiora(date[adate[j]].slice(0, -1), ' ', false) + '</td>';
-        else if (j == 9) row += '<td data-filtru="' + dataset[j] + '">' + date[adate[j]].replaceAll(',', ",<br>").replaceAll(';', ";<br>") + '</td>';
+        if (j == 5) row += '<td data-filtru="' + dataset[j] + '" data-mysql="' + date[adate[j]] + '">' + datasiora((date[adate[j]]?date[adate[j]]:'').slice(0, -1), ' ', false) + '</td>';
+        else if (j == 9) row += '<td data-filtru="' + dataset[j] + '">' + (date[adate[j]]?date[adate[j]]:'').replaceAll(',', ",<br>").replaceAll(';', ";<br>") + '</td>';
         else row += '<td data-filtru="' + dataset[j] + '">' + date[adate[j]] + '</td>';
     }
     row += '</tr>';
@@ -102,7 +102,7 @@ function insert_row_dturi(date, dataset) {
 }
 
 function array_to_dturi(inregistrari) {        //Se populeaza tabelul din procesare cu datele venite de la server
-    var dataset = ['fidt', 'fserie', 'fmodel', 'flocalitate', 'fnumarmag', 'fultimaR', 'fintervalZ', 'fintervalB', 'fenmailS', 'fenmailK'];
+    var dataset = ['fid', 'fserie', 'fmodel', 'flocalitate', 'fnumarmag', 'fultimaR', 'fintervalZ', 'fintervalB', 'fenmailS', 'fenmailK'];
     console.log(inregistrari)
     $("#dt_tabel tbody").empty();
     for (var i = 0; i < inregistrari.length; i++) {
@@ -115,7 +115,7 @@ function array_to_dturi(inregistrari) {        //Se populeaza tabelul din proces
 }
 
 function array_to_l2(inregistrari) {        //Se populeaza tabelul din procesare cu datele venite de la server
-    var dataset = ['fidt', 'fserie', 'fmodel', 'flocalitate', 'fnumarmag', 'fultimaR', 'fintervalZ', 'fintervalB', 'fenmailS', 'fenmailK'];
+    var dataset = ['fid', 'fserie', 'fmodel', 'flocalitate', 'fnumarmag', 'fultimaR', 'fintervalZ', 'fintervalB', 'fenmailS', 'fenmailK'];
     console.log(inregistrari)
     $("#l2_tabel tbody").empty();
     for (var i = 0; i < inregistrari.length; i++) {
