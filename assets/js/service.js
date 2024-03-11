@@ -11,7 +11,7 @@ var floatParam = {
     //    autoReflow: true,
     //    position: 'fixed'
 };
-//if (page_name == 'preluare') floatParam.top = 56;
+
 
 $table.floatThead(floatParam); //*/
 
@@ -76,9 +76,16 @@ function array_to_dt(data) {        //Se populeaza select
     });
 }
 
+function command_device(mac,command) {
+    ws.send(JSON.stringify({
+        "mqtt_command": command,
+        "data": mac
+    }));
+}
+
+
 function insert_row_devices(date, dataset) {
-    //    var adate = ['idt', 'mac', 'model', 'devsw', 'localitate', 'magazin', 'nrmag', 'status', 'status_rev', 'downtime', 'grad', 'gre', 'nrBaloti', 'lcd', 'rssi'];
-    var adate = ['idt', 'mac', 'model', 'sw', 'localitate', 'magazin', 'nrmag', 'status', 'gre', 'pl_c', 'l_pl_c', 'nrBaloti', 'blc', 'lcd', 'rssi'];
+    var adate = ['idt', 'mac', 'comenzi', 'sw', 'localitate', 'commands', 'nrmag', 'status', 'vizibil', 'pl_c', 'l_pl_c', 'nrBaloti', 'blc', 'lcd', 'rssi'];
 //    console.log(date)
   //  console.log(dataset)
 
@@ -93,7 +100,18 @@ function insert_row_devices(date, dataset) {
         else if (adate[j] == 'rssi') {
             row += date[adate[j]] + ' dBm</td>';
         }
-
+        else if (adate[j] == 'comenzi') {
+            // punem buntone pentru update, reset, simulate
+            row += `<button class="btn btn-warning btn-sm" onclick="command_device('${date.mac}','update')">Update</button>`;
+            row += `<button class="btn btn-danger btn-sm" onclick="command_device('${date.mac}','reset')">Reset</button>`;
+            row += `<button class="btn btn-info btn-sm" onclick="command_device('${date.mac}','simulate')">Simulate</button>`;
+        }
+        else if (adate[j] == 'commands') {
+            // punem buntone pentru update, reset, simulate
+            row += `<button class="btn btn-warning btn-sm" onclick="command_device('${date.mac}','aflash')">AUpdate</button>`;
+            row += `<button class="btn btn-danger btn-sm" onclick="command_device('${date.mac}','areset')">AReset</button>`;
+            row += `<button class="btn btn-info btn-sm" onclick="command_device('${date.mac}','stop')">Stop</button>`;
+        }
         else
             row += date[adate[j]] + '</td>';
     }

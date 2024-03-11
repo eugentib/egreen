@@ -252,11 +252,15 @@ wss.on('connection', async (ws, req) => {
 
         let result
 
-        if (msg.broadcast !== true && msg.hasOwnProperty('command')) {
-          result = await handleDbRequestAsync(msg)
-        } else {
-          console.log('Unknown data received', rmsg.toString())
-          return
+        if (msg.broadcast !== true) {
+          if (msg.hasOwnProperty('command')) {
+            result = await handleDbRequestAsync(msg)
+          } else if (msg.hasOwnProperty('mqtt_command')) {
+            result = await my_mqtt.mqtt_command(msg)
+          } else {
+            console.log('Unknown data received', rmsg.toString())
+            return
+          }
         }
 
         if (result.broadcast) {

@@ -179,8 +179,11 @@ function connectws() {       //Se conecteaza websocket la server si se proceseaz
             start = getCurrentDateTimeMySql(start);
             end = getCurrentDateTimeMySql(end);
         }
-        if ((page_name == 'general') || (page_name == 'config') || (page_name == 'inrolare') || (page_name == 'raportari') || (page_name == 'service')) {
-            ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end] }));
+        if ((page_name == 'general') || (page_name == 'config') || (page_name == 'inrolare') || (page_name == 'raportari') || (page_name == 'oldservice')) {
+            ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end, 1] }));
+        }
+        else if ((page_name == 'service')) {
+            ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end, 1] }));
         }
 
         ws.timer = setInterval(function () { pingpong(ws); }, 50000);

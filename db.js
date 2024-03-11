@@ -695,7 +695,7 @@ function request_db (msg, callback) {
              FROM (SELECT DISTINCT mac FROM stat_baloti) sb) AS baloti_counts ON devices.mac = baloti_counts.mac
           LEFT JOIN avertizari ON devices.mac = avertizari.mac AND avertizari.stadiu<3
           LEFT JOIN stat_erori ON devices.mac = stat_erori.mac AND stat_erori.data BETWEEN ? AND ?
-          WHERE devices.vizibil = 1
+          WHERE devices.vizibil = ${msg.data[4]}
           GROUP BY devices.mac
           ORDER BY devices.nrmag DESC`
       resp.content = 'devices_data'

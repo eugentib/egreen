@@ -317,6 +317,15 @@ function is_kn_topic (topic) {
   return ret
 }
 
+async function mqtt_command (msg) {
+  let mac = msg.data
+  let command = msg.mqtt_command
+  mqttclient.publish(`Kaufland/${mac}/sw`, command)
+  console.log(`Sent command ${command} to ${mac}`)
+  return {}
+}
+module.exports.mqtt_command = mqtt_command
+
 function topic_split (topic) {
   var topic_arr = topic.split('/') //convert to array
   return topic_arr

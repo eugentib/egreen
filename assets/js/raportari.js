@@ -212,11 +212,12 @@ function datePeLuna (date, perioada) {
   let msg = `<table id="tabluni" class="tabluni table table-bordered table-dark">
     <thead class="text-primary" style="color: rgb(235,242,250);background-color: #444444!important;">
         <tr class="text-center">
-            <th class="sort">Numar</th>
-            <th class="sort">Nume magazin</th>`
+        <th class="sort">Nr. Crt.</th>
+        <th class="sort">Numar</th>
+        <th class="sort">Nume magazin</th>`
   var total = {}
   total.general = 0
-  for (let property in date[0]) {
+  for (let property in date[0]) { 
     console.log(`${property}: ${date[0][property]}`)
     if (
       property != 'mac' &&
@@ -233,7 +234,7 @@ function datePeLuna (date, perioada) {
     </thead>
     <tbody>`
   for (let index in date) {
-    msg += `<tr>`
+    msg += `<tr><td>${parseInt(index)+1}</td>`
     for (let property in date[index]) {
       if (property != 'mac') {
         msg += `<td>${date[index][property] || 0}</td>`
@@ -245,7 +246,7 @@ function datePeLuna (date, perioada) {
     msg += `</tr>`
   }
 
-  msg += `<tr style="color: rgb(235,242,250);background-color: #444444!important;" class="nosort"><td> </td><td>Total</td>`
+  msg += `<tr style="color: rgb(235,242,250);background-color: #444444!important;" class="nosort"><td> </td><td> </td><td>Total</td>`
   for (let property in date[0]) {
     console.log(`${property}: ${date[0][property]}`)
     if (
