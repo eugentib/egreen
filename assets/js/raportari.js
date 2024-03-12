@@ -7,6 +7,125 @@ $('#incarca_raportari').on('click', get_raport_data)
 $('#tabelr tbody').on('click', 'td.get_detali', get_detali)
 $('#tabelr tbody').on('click', 'td.close_detali', close_detali)
 
+$('#exporta_inregistrari').on('click', function () {
+  var tabelHeader = []
+  $('.floatThead-container thead tr').each(function () {
+    var row = []
+    $(this)
+      .find('th:not(:nth-child(-n+2))')
+      .each(function () {
+        var headerCell = $(this)
+        var cellContent
+        var inputElement = headerCell.find('input, select')
+        if (inputElement.length > 0) {
+          cellContent = inputElement.val()
+        } else {
+          cellContent = headerCell.text().trim()
+        }
+        row.push(cellContent)
+      })
+    tabelHeader.push(row)
+  })
+
+  var tabelBody = []
+  $('#tabelr tbody tr:visible').each(function () {
+    var row = []
+    $(this)
+      .find('td:not(:nth-child(-n+2))')
+      .each(function () {
+        row.push($(this).text().trim())
+      })
+    tabelBody.push(row)
+  })
+
+  var wb = XLSX.utils.book_new()
+  var worksheet = XLSX.utils.json_to_sheet([].concat(tabelHeader, tabelBody), {
+    skipHeader: true
+  })
+
+  // Setăm lățimea coloanelor la aproximativ 10 unități de caractere
+  var colWidth = 10
+  var range = XLSX.utils.decode_range(worksheet['!ref'])
+  for (var col = range.s.c; col <= range.e.c; col++) {
+    var colLetter = XLSX.utils.encode_col(col)
+    worksheet['!cols'] = worksheet['!cols'] || []
+    worksheet['!cols'][col] = { wch: colWidth }
+  }
+
+  XLSX.utils.book_append_sheet(wb, worksheet, 'Foaie1')
+  var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' })
+
+  function s2ab (s) {
+    var buf = new ArrayBuffer(s.length)
+    var view = new Uint8Array(buf)
+    for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff
+    return buf
+  }
+
+  saveAs(
+    new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
+    'tabel.xlsx'
+  )
+})
+
+$('#printeaza_inregistrari').on('click', function () {
+  // Cod pentru printarea înregistrărilor
+  var tabelHeader = '<thead>'
+  $('.floatThead-container thead tr').each(function () {
+    var row = "<tr style='border: 1px solid #ccc;'>"
+    $(this)
+      .find('th:not(:nth-child(-n+2))')
+      .each(function () {
+        var headerCell = $(this)
+        var cellContent
+        var inputElement = headerCell.find('input, select')
+        if (inputElement.length > 0) {
+          cellContent =
+            "<div style='border: 1px solid #ccc; padding: 5px;'>" +
+            inputElement.val() +
+            '</div>'
+        } else {
+          cellContent = headerCell.html()
+        }
+        row += '<th>' + cellContent + '</th>'
+      })
+    row += '</tr>'
+    tabelHeader += row
+  })
+  tabelHeader += '</thead>'
+
+  var tabelBody = '<tbody>'
+  $('#tabelr tbody tr:visible').each(function () {
+    var row = $(this)
+    var cols = ''
+    row.find('td:not(:nth-child(-n+2))').each(function () {
+      cols += '<td>' + $(this).html() + '</td>'
+    })
+    tabelBody += '<tr>' + cols + '</tr>'
+  })
+  tabelBody += '</tbody>'
+
+  var printContents = '<table>' + tabelHeader + tabelBody + '</table>'
+  var originalContents = document.body.innerHTML
+
+  // Adăugăm un stil CSS pentru a mări spațiile între coloane
+  var printStyle = '<style>table td, table th { padding: 5px 10px; }</style>'
+
+  var printWindow = window.open('', '', 'height=800,width=800')
+  printWindow.document.write(
+    '<html><head><title>' +
+      document.title +
+      '</title>' +
+      printStyle +
+      '</head><body>' +
+      printContents +
+      '</body></html>'
+  )
+  printWindow.document.close()
+  printWindow.print()
+  printWindow.close()
+})
+
 //Call function get_detali_baloti when user clicks on a checkbox with class ckboxBaloti and the checbox is checked
 // and hides the details when the chebox is unchecked
 $('body').on('click', '.ckboxBaloti', function () {
@@ -99,7 +218,7 @@ function get_detali () {
   let end = datepicker2mysqldate('#datepicker2')
   console.log(mac)
   show_detali(start, end, mac)
-//  get_detali_baloti(start, end, mac)
+  //  get_detali_baloti(start, end, mac)
 }
 
 function get_raport_data () {
@@ -123,7 +242,7 @@ function ws_msg (received) {
         $(`#${received.mac}_detali_erori`).html(
           parse_detali_err(received.data, received.perioada, received.mac)
         )
-        add_even_odd('#' + received.mac + `_detali .taberori${received.mac}`)
+        add_even_odd('#' + received.mac + `_detali .taberori_${received.mac}`)
         $(`#${received.mac}_detali_erori`).find('.sort').click(sort)
       }
       break
@@ -132,7 +251,7 @@ function ws_msg (received) {
         $(`#${received.mac}_detali_baloti`).html(
           parse_detali_baloti(received.data, received.perioada, received.mac)
         )
-        add_even_odd(`#${received.mac}_detali .tabbaoti${received.mac}`)
+        add_even_odd(`#${received.mac}_detali .tabbaoti_${received.mac}`)
         $(`#${received.mac}_detali_baloti`).find('.sort').click(sort)
       }
       break
@@ -141,7 +260,7 @@ function ws_msg (received) {
         $(`#${received.mac}_detali_conexiune`).html(
           parse_detali_conexiune(received.data, received.perioada, received.mac)
         )
-        add_even_odd(`#${received.mac}_detali .tabconexiune${received.mac}`)
+        add_even_odd(`#${received.mac}_detali .tabconexiune_${received.mac}`)
         $(`#${received.mac}_detali_conexiune`).find('.sort').click(sort)
       }
       break
@@ -217,7 +336,7 @@ function datePeLuna (date, perioada) {
         <th class="sort">Nume magazin</th>`
   var total = {}
   total.general = 0
-  for (let property in date[0]) { 
+  for (let property in date[0]) {
     console.log(`${property}: ${date[0][property]}`)
     if (
       property != 'mac' &&
@@ -234,7 +353,7 @@ function datePeLuna (date, perioada) {
     </thead>
     <tbody>`
   for (let index in date) {
-    msg += `<tr><td>${parseInt(index)+1}</td>`
+    msg += `<tr><td>${parseInt(index) + 1}</td>`
     for (let property in date[index]) {
       if (property != 'mac') {
         msg += `<td>${date[index][property] || 0}</td>`
@@ -473,7 +592,7 @@ function show_detali (start, end, mac) {
 function parse_detali_err (date, perioada, mac) {
   //console.log(date)
   //  console.log(perioada)
-  let msg = `<table id="taberori${mac}" class="taberori${mac}" style="width: 100%; margin-bottom: 1rem;">
+  let msg = `<table id="taberori_${mac}" class="taberori_${mac}" style="width: 100%; margin-bottom: 1rem;">
     <thead class="text-primary" style="color: rgb(235,242,250);background-color: #444444!important;">
     <tr class="text-center">
     <th class="nosort" colspan="8">ERORI si EMAIL-uri transmise in perioada de la ${mysql2ro(
@@ -525,7 +644,7 @@ function parse_detali_err (date, perioada, mac) {
 function parse_detali_baloti (date, perioada, mac) {
   console.log(date)
   //  console.log(perioada)
-  let msg = `<table id="tabbaoti${mac}" class="tabbaoti${mac}" style="width: 80%; margin-bottom: 1rem;">
+  let msg = `<table id="tabbaoti_${mac}" class="tabbaoti_${mac}" style="width: 80%; margin-bottom: 1rem;">
     <thead class="text-primary" style="color: rgb(235,242,250);background-color: #444444!important;">
     <tr class="text-center">
     <th class="nosort" colspan="4">BALOTI finalizati in perioada de la ${mysql2ro(
@@ -559,7 +678,7 @@ function parse_detali_baloti (date, perioada, mac) {
 function parse_detali_conexiune (date, perioada, mac) {
   console.log(date)
   //  console.log(perioada)
-  let msg = `<table id="tabconexiune${mac}" class="tabconexiune${mac}" style="width: 80%; margin-bottom: 1rem;"">
+  let msg = `<table id="tabconexiune_${mac}" class="tabconexiune_${mac}" style="width: 80%; margin-bottom: 1rem;"">
     <thead class="text-primary" style="color: rgb(235,242,250);background-color: #444444!important;">
     <tr class="text-center">
     <th class="nosort" colspan="4">CONEXIUNI pierdute in perioada de la ${mysql2ro(
@@ -580,7 +699,8 @@ function parse_detali_conexiune (date, perioada, mac) {
   for (let index in date) {
     msg += `<tr>`
     for (let property in date_index) {
-      if (property != 1 && property != 2) msg += `<td>${date[index][date_index[property]]}</td>`
+      if (property != 1 && property != 2)
+        msg += `<td>${date[index][date_index[property]]}</td>`
       else msg += `<td>${mysql2ro(date[index][date_index[property]])}</td>`
     }
     msg += `</tr>`
@@ -589,10 +709,140 @@ function parse_detali_conexiune (date, perioada, mac) {
   return msg
 }
 
-var buton_print = `<th class="nosort" style="background-color: #ebf2fa;border: none; width: 8rem;"><button class="btn btn-primary float-right" type="button" id="printeaza_inregistrari"
-style="color: rgb(4,4,4);height: 30px;width: 98px;"><i class="fa fa-print"
-    style="font-size: 20px;color: rgb(0,0,0);margin-top: 0px;"></i>   Print</button></th>`
-var buton_export = `<th class="nosort" style="background-color: #ebf2fa;border: none;"><button class="btn btn-primary float-right"
-type="button" id="exporta_inregistrari"
-style="color: rgb(0,0,0);height: 30px;"><i class="fa fa-file-excel-o"
-    style="font-size: 20px;margin-top: 0px;"></i>   Export</button></th>`
+var buton_print = `<th class="nosort .no-print" style="background-color: #ebf2fa;border: none; width: 8rem;">
+  <button class="btn btn-primary float-right printeaza_inregistrari" type="button" style="color: rgb(4,4,4);height: 30px;width: 98px;">
+    <i class="fa fa-print" style="font-size: 20px;color: rgb(0,0,0);margin-top: 0px;">
+    </i>   Print
+  </button>
+</th>`
+var buton_export = `<th class="nosort no-print" style="background-color: #ebf2fa;border: none;">
+  <button class="btn btn-primary float-right exporta_inregistrari" type="button" style="color: rgb(0,0,0);height: 30px;">
+    <i class="fa fa-file-excel-o" style="font-size: 20px;margin-top: 0px;">
+    </i>   Export
+  </button>
+</th>`
+
+/**
+ * Prints the table to a new window for the user to print.
+ *
+ * Clones the table, removes any elements not needed for printing,
+ * extracts the table type and MAC from the id, gets the store name and number,
+ * opens a print window, writes the HTML and styles, appends the table,
+ * prints the window, then closes it.
+ */
+$(document).on('click', '.printeaza_inregistrari', function () {
+  var tabel = $(this).closest('table')
+  var tabelClone = tabel.clone()
+
+  // Eliminăm elementele care nu trebuie printate
+  tabelClone.find('.printeaza_inregistrari').remove()
+  tabelClone.find('.no-print').remove()
+  tabelClone.find('table').remove() // Eliminăm tabelele secundare
+
+  // Extragem tipul tabelului și MAC-ul din id-ul sau clasa tabelului
+  var tabelId = tabel.attr('id') || tabel.attr('class')
+  var tabelTip = 'Necunoscut'
+  var tabelMac = 'Necunoscut'
+  if (tabelId) {
+    var tabelParts = tabelId.split('_')
+    tabelTip = tabelParts[0].replace('tab', '')
+    tabelMac = tabelParts[1]
+  }
+
+  // Extragem numele magazinului și numărul magazinului din rândul cu id=mac
+  var numeMagazin = $('#' + tabelMac + ' td:nth-child(5)')
+    .text()
+    .trim()
+  var nrMagazin = $('#' + tabelMac + ' td:nth-child(4)')
+    .text()
+    .trim()
+
+  // Creăm un element temporar pentru a printa tabelul
+  var printWindow = window.open('', '', 'height=800,width=800')
+  var printDoc = printWindow.document
+  printDoc.open()
+  printDoc.write('<!DOCTYPE html><html><head><title>Print Tabel</title>')
+  printDoc.write('<style>')
+  printDoc.write('body { font-family: Arial, sans-serif; }')
+  printDoc.write('table { border-collapse: collapse; width: 100%; }')
+  printDoc.write('th, td { border: 1px solid #ddd; padding: 8px; }')
+  printDoc.write(
+    'th { background-color: #f2f2f2; font-weight: bold; text-align: left; }'
+  )
+  printDoc.write('thead tr { background-color: #dddddd; }')
+  printDoc.write('</style>')
+  printDoc.write('</head><body>')
+  printDoc.write(
+    '<h2>Tabel ' +
+      tabelTip +
+      ' pentru magazinul ' +
+      numeMagazin +
+      ' nr ' +
+      nrMagazin +
+      '</h2>'
+  )
+
+  // Creăm elementele DOM pentru tabel și le atașăm la fereastra temporară
+  var tabelElement = printDoc.createElement('table')
+  tabelElement.innerHTML = tabelClone.html()
+  printDoc.body.appendChild(tabelElement)
+
+  printDoc.write('</body></html>')
+  printDoc.close()
+  printWindow.print()
+  printWindow.close()
+})
+
+
+$(document).on('click', '.exporta_inregistrari', function() {
+  var tabel = $(this).closest('table');
+  var tabelClone = tabel.clone();
+  // Eliminăm elementele care nu trebuie exportate
+  tabelClone.find('.printeaza_inregistrari').remove();
+  tabelClone.find('.no-print').remove();
+  tabelClone.find('.exporta_inregistrari').remove(); // Eliminăm butonul de export
+
+  // Extragem tipul tabelului și MAC-ul din id-ul sau clasa tabelului
+  var tabelId = tabel.attr('id') || tabel.attr('class');
+  var tabelTip = 'Necunoscut';
+  var tabelMac = 'Necunoscut';
+  if (tabelId) {
+    var tabelParts = tabelId.split('_');
+    tabelTip = tabelParts[0].replace('tab', '');
+    tabelMac = tabelParts[1];
+  }
+
+  // Extragem perioada din primul rând al tabelului
+  var perioada = tabelClone.find('thead tr:first-child th:first-child').text().trim();
+
+  // Extragem numele magazinului și numărul magazinului din rândul cu id=mac
+  var numeMagazin = $('#' + tabelMac + ' td:nth-child(5)').text().trim();
+  var nrMagazin = $('#' + tabelMac + ' td:nth-child(4)').text().trim();
+
+  // Creăm un obiect WorkBook și un obiect WorkSheet folosind SheetJS
+  var wb = XLSX.utils.book_new();
+  var ws = XLSX.utils.table_to_sheet(tabelClone.get(0));
+
+  // Setăm lățimea coloanelor la aproximativ 10 unități de caractere
+  var colWidth = 15
+  var range = XLSX.utils.decode_range(ws['!ref'])
+  for (var col = range.s.c; col <= range.e.c; col++) {
+    var colLetter = XLSX.utils.encode_col(col)
+    ws['!cols'] = ws['!cols'] || []
+    ws['!cols'][col] = { wch: colWidth }
+  }
+
+  // Adăugăm foaia de calcul în cartea de lucru
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+  // Generăm un fișier Excel
+  var excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+  // Creăm un link pentru descărcarea fișierului Excel
+  var link = document.createElement("a");
+  link.setAttribute("href", window.URL.createObjectURL(new Blob([excelBuffer], { type: "application/octet-stream" })));
+  link.setAttribute("download", "Tabel_" + tabelTip + "_" + numeMagazin + "_" + nrMagazin + ".xlsx");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+})
