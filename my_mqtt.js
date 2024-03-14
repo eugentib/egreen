@@ -180,6 +180,7 @@ function new_device (message_str) {
     topics.push(message_str)
     mqttclient.subscribe(message_str, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/sw`, mqtt_subscribe)
+    mqttclient.subscribe(`Kaufland/${mac}/R_sw`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/FW_ver`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/crash`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/rssi`, mqtt_subscribe)

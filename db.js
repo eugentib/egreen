@@ -442,6 +442,7 @@ function get_topics (callback) {
       top.push('Kaufland/' + results[i].mac + '/sw')
       top.push('Kaufland/' + results[i].mac + '/scr')
       top.push('Kaufland/' + results[i].mac + '/vsw')
+      top.push('Kaufland/' + results[i].mac + '/R_sw')
       top.push('Kaufland/' + results[i].mac + '/model')
       top.push('Kaufland/' + results[i].mac + '/nrbalot')
     }
@@ -634,6 +635,9 @@ function request_db (msg, callback) {
   // Start the timer with a unique label
   console.time('TotalRequestTime')
   switch (msg.command) {
+    case 'update_device': //update un anumit camp pentru device
+      sql = `UPDATE devices SET ${msg.field}=? WHERE mac=?`
+      break
     case 'get_login_data': //verific daca exista date in db
       sql =
         "SELECT COUNT(username) FROM users where password = '" +
@@ -700,6 +704,39 @@ function request_db (msg, callback) {
           ORDER BY devices.nrmag DESC`
       resp.content = 'devices_data'
       break
+
+    case 'get_all_devices':
+      sql = `SELECT devices.*, 
+        SEC_TO_TIME(SUM(TIME_TO_SEC(CASE WHEN stat_erori.eroare > 10 THEN stat_erori.durata ELSE '00:00:00' END))) AS downtime,
+        COALESCE(baloti_counts.blc, 0) AS blc,
+        COUNT(CASE WHEN stat_erori.eroare < 11 THEN 1 END) AS minore,
+        COUNT(CASE WHEN stat_erori.eroare > 10 THEN 1 END) AS majore,
+        CASE
+          WHEN nr_eroare<10 THEN 'Personal Kaufland'
+          WHEN nr_eroare>10 THEN 'Furnizor Service'
+          ELSE ' '
+        END AS responsabil,
+        CASE
+          WHEN CURDATE() > DATE_ADD(dataRevizie, INTERVAL intervalRevizie DAY) AND nrBaloti > intervalBaloti + balotiRevizie THEN CONCAT('Depasita <br>(', DATEDIFF(CURDATE(), DATE_ADD(dataRevizie, INTERVAL intervalRevizie DAY)), ' zile, ', nrBaloti - (intervalBaloti + balotiRevizie), ' baloti)')
+          WHEN CURDATE() > DATE_ADD(dataRevizie, INTERVAL intervalRevizie DAY) THEN CONCAT('Depasita <br>(', DATEDIFF(CURDATE(), DATE_ADD(dataRevizie, INTERVAL intervalRevizie DAY)), ' zile)')
+          WHEN nrBaloti > intervalBaloti + balotiRevizie THEN CONCAT('Depasita <br>(', nrBaloti - (intervalBaloti + balotiRevizie), ' baloti)')
+          ELSE 'In termen'
+        END AS revizie
+            FROM devices 
+            LEFT JOIN (SELECT sb.mac AS mac,
+               -(IFNULL((SELECT MAX(nrBalot) FROM stat_baloti sb1 WHERE sb1.mac = sb.mac AND sb1.data < ?),
+               (SELECT MIN(nrBalot) FROM stat_baloti sb1 WHERE sb1.mac = sb.mac)) - 
+               IFNULL((SELECT MAX(nrBalot) FROM stat_baloti sb2 WHERE sb2.mac = sb.mac AND sb2.data < ?),
+               (SELECT MIN(nrBalot) FROM stat_baloti sb2 WHERE sb2.mac = sb.mac))) 
+               AS blc 
+               FROM (SELECT DISTINCT mac FROM stat_baloti) sb) AS baloti_counts ON devices.mac = baloti_counts.mac
+            LEFT JOIN avertizari ON devices.mac = avertizari.mac AND avertizari.stadiu<3
+            LEFT JOIN stat_erori ON devices.mac = stat_erori.mac AND stat_erori.data BETWEEN ? AND ?
+            GROUP BY devices.mac
+            ORDER BY devices.nrmag DESC`
+      resp.content = 'devices_data'
+      break
+
     case 'get_ddev':
       sql = `SELECT devices.presariPEbalot AS sw, devices.id, devices.rssi, devices.nr_e, devices.mac, devices.lcd, devices.pl_c, ddev.scroll, devices.nr_e_kip 
       FROM devices LEFT JOIN ddev ON devices.mac = ddev.mac`
@@ -868,7 +905,7 @@ function request_db (msg, callback) {
     WHERE 
         se.data BETWEEN ? AND ?
         AND se.mac = ?
-        ORDER BY se.data DESC`
+        ORDER BY se.data ASC`
       } else return
       break
 
@@ -890,7 +927,7 @@ function request_db (msg, callback) {
       WHERE 
           sb.data BETWEEN ? AND ?
           AND sb.mac = ?
-          ORDER BY sb.data DESC`
+          ORDER BY sb.data ASC`
       } else return
       break
     case 'get_detali_conexiune':
@@ -909,7 +946,7 @@ function request_db (msg, callback) {
           FROM stat_conexiuni sc
           WHERE sc.data_offline BETWEEN ? AND ?
           AND sc.mac = ?
-          ORDER BY sc.data_offline DESC`
+          ORDER BY sc.data_offline ASC`
       } else return
       break
 

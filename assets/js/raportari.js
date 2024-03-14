@@ -378,6 +378,11 @@ function datePeLuna (date, perioada) {
     }
   }
   msg += `<td>${total.general}</td></tr></tbody></table>`
+  let titlu =`Raport lunar pentru perioada de la ${mysql2ro(
+    perioada[0]
+  )} până la ${mysql2ro(
+    perioada[1]
+  )} generat la ${new Date().toLocaleString('ro-RO')}`
 
   $('<div class="rapo" style="text-align:center;"></div>')
     .html(msg)
@@ -387,17 +392,50 @@ function datePeLuna (date, perioada) {
         add_even_odd('#tabluni')
         $('.sort').click(sort)
       },
-      title: `Raport lunar pentru perioada de la ${mysql2ro(
-        perioada[0]
-      )} până la ${mysql2ro(
-        perioada[1]
-      )} generat la ${new Date().toLocaleString('ro-RO')}`,
+      title: titlu,
       resizable: true,
       modal: true,
       width: 1100,
       buttons: {
-        Anulează: function () {
-          $(this).dialog('destroy')
+        Print: {
+          text: 'Print',
+          click: function () {
+            const printContents = `<h3>${titlu}</h3>${
+              document.getElementById('tabluni').outerHTML
+            }`
+            // Adăugăm un stil CSS pentru a mări spațiile între coloane și alinia celulele pe centru
+            var printStyle =
+              '<style>table td, table th { padding: 5px 10px; text-align: center; } table td:nth-child(3), table th:nth-child(3) { text-align: left; }</style>'
+            var printWindow = window.open('', '', 'height=800,width=800')
+            printWindow.document.write(
+              '<html><head><title>' +
+                document.title +
+                '</title>' +
+                printStyle +
+                '</head><body>' +
+                printContents +
+                '</body></html>'
+            )
+            printWindow.document.close()
+            printWindow.print()
+            printWindow.close()
+          }
+        },
+        Export: {
+          class: 'leftButton',
+          text: 'Export',
+          click: function () {
+            // Adauga cod pentru exportul tabelului folosind functia @#exportaInregistrari
+            var tabel = $('#tabluni')
+            var tabelClone = tabel.clone()
+            exportaInregistrari(tabel, tabelClone, titlu)          
+          }
+        },
+        Anulează: {
+          text: 'Anulează',
+          click: function () {
+            $(this).dialog('destroy')
+          }
         }
       }
     })
@@ -405,15 +443,8 @@ function datePeLuna (date, perioada) {
 
 var $table = $('#tabelr')
 
-var floatParam = {
-  // thead cells
-  headerCellSelector: 'tr:visible:first>*:visible',
-  top: 94,
-  useAbsolutePositioning: false,
-  zIndex: 10
-  //    autoReflow: true,
-  //    position: 'fixed'
-}
+floatParam.top= 94
+
 $table.floatThead(floatParam) //*/
 
 function insert_row_raportari (date, dataset) {
@@ -765,7 +796,7 @@ $(document).on('click', '.printeaza_inregistrari', function () {
   printDoc.write('<style>')
   printDoc.write('body { font-family: Arial, sans-serif; }')
   printDoc.write('table { border-collapse: collapse; width: 100%; }')
-  printDoc.write('th, td { border: 1px solid #ddd; padding: 8px; }')
+  printDoc.write('th, td { border: 1px solid #ddd; padding: 8px; text-align: center;}')
   printDoc.write(
     'th { background-color: #f2f2f2; font-weight: bold; text-align: left; }'
   )
@@ -793,56 +824,84 @@ $(document).on('click', '.printeaza_inregistrari', function () {
   printWindow.close()
 })
 
-
-$(document).on('click', '.exporta_inregistrari', function() {
-  var tabel = $(this).closest('table');
-  var tabelClone = tabel.clone();
+function exportaInregistrari (tabel, tabelClone, titluFisier) {
   // Eliminăm elementele care nu trebuie exportate
-  tabelClone.find('.printeaza_inregistrari').remove();
-  tabelClone.find('.no-print').remove();
-  tabelClone.find('.exporta_inregistrari').remove(); // Eliminăm butonul de export
+  tabelClone.find('.printeaza_inregistrari').remove()
+  tabelClone.find('.no-print').remove()
+  tabelClone.find('.exporta_inregistrari').remove() // Eliminăm butonul de export
 
   // Extragem tipul tabelului și MAC-ul din id-ul sau clasa tabelului
-  var tabelId = tabel.attr('id') || tabel.attr('class');
-  var tabelTip = 'Necunoscut';
-  var tabelMac = 'Necunoscut';
+  var tabelId = tabel.attr('id') || tabel.attr('class')
+  var tabelTip = 'Necunoscut'
+  var tabelMac = 'Necunoscut'
   if (tabelId) {
-    var tabelParts = tabelId.split('_');
-    tabelTip = tabelParts[0].replace('tab', '');
-    tabelMac = tabelParts[1];
+    var tabelParts = tabelId.split('_')
+    tabelTip = tabelParts[0].replace('tab', '')
+    tabelMac = tabelParts[1]
   }
 
-  // Extragem perioada din primul rând al tabelului
-  var perioada = tabelClone.find('thead tr:first-child th:first-child').text().trim();
-
   // Extragem numele magazinului și numărul magazinului din rândul cu id=mac
-  var numeMagazin = $('#' + tabelMac + ' td:nth-child(5)').text().trim();
-  var nrMagazin = $('#' + tabelMac + ' td:nth-child(4)').text().trim();
+  var numeMagazin = $('#' + tabelMac + ' td:nth-child(5)')
+    .text()
+    .trim()
+  var nrMagazin = $('#' + tabelMac + ' td:nth-child(4)')
+    .text()
+    .trim()
+
+  // Inserăm titlul fișierului la începutul tabelului, dacă este setat
+  if (titluFisier) {
+    var titluRow = $(
+      '<tr><th colspan="' +
+        tabelClone.find('th').length +
+        '">' +
+        titluFisier +
+        '</th></tr>'
+    )
+    tabelClone.find('thead').prepend(titluRow)
+  }
 
   // Creăm un obiect WorkBook și un obiect WorkSheet folosind SheetJS
-  var wb = XLSX.utils.book_new();
-  var ws = XLSX.utils.table_to_sheet(tabelClone.get(0));
+  var wb = XLSX.utils.book_new()
+  var ws = XLSX.utils.table_to_sheet(tabelClone.get(0))
 
-  // Setăm lățimea coloanelor la aproximativ 10 unități de caractere
-  var colWidth = 15
+  // Setăm lățimea coloanelor la aproximativ 15 unități de caractere
+  var colWidth = 19
   var range = XLSX.utils.decode_range(ws['!ref'])
   for (var col = range.s.c; col <= range.e.c; col++) {
-    var colLetter = XLSX.utils.encode_col(col)
     ws['!cols'] = ws['!cols'] || []
     ws['!cols'][col] = { wch: colWidth }
   }
 
   // Adăugăm foaia de calcul în cartea de lucru
-  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  var sheetName = titluFisier || 'Sheet1'
+  if (sheetName.length > 31) {
+    sheetName = sheetName.substring(0, 31)
+  }
+  XLSX.utils.book_append_sheet(wb, ws, sheetName)
 
   // Generăm un fișier Excel
-  var excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  var excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
 
   // Creăm un link pentru descărcarea fișierului Excel
-  var link = document.createElement("a");
-  link.setAttribute("href", window.URL.createObjectURL(new Blob([excelBuffer], { type: "application/octet-stream" })));
-  link.setAttribute("download", "Tabel_" + tabelTip + "_" + numeMagazin + "_" + nrMagazin + ".xlsx");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  var link = document.createElement('a')
+  link.setAttribute(
+    'href',
+    window.URL.createObjectURL(
+      new Blob([excelBuffer], { type: 'application/octet-stream' })
+    )
+  )
+  link.setAttribute(
+    'download',
+    (titluFisier ? titluFisier + '.xlsx' : '') ||
+      'Tabel_' + tabelTip + '_' + numeMagazin + '_' + nrMagazin + '.xlsx'
+  )
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+$(document).on('click', '.exporta_inregistrari', function () {
+  var tabel = $(this).closest('table')
+  var tabelClone = tabel.clone()
+  exportaInregistrari(tabel, tabelClone)
 })

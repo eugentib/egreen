@@ -3,20 +3,6 @@
 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
 var user = localStorage.getItem('n'); functia = localStorage.getItem('r');     //vor fi luate din sesiune
 
-var $table = $('#dt_tabel');
-
-var floatParam = {
-    // thead cells
-    headerCellSelector: 'tr:visible:first>*:visible',
-    top: 56,
-    useAbsolutePositioning: false,
-    zIndex: 10,
-    //    autoReflow: true,
-    //    position: 'fixed'
-};
-
-$table.floatThead(floatParam); //*/
-
 $("#user").html(user);
 
 function mouseoverusericon() {
@@ -29,15 +15,6 @@ function mouseoverusericon() {
 function mouseoutofusericon() {
     var a = document.getElementById("usermenu");
     a.style.top = "-56px";
-}
-
-var table_body = $("#tabelp tbody")[0];
-
-var fn = function () {
-    $table.floatThead('destroy');
-    fn = function () {
-        $table.floatThead(floatParam);
-    }
 }
 
 
@@ -183,7 +160,7 @@ function connectws() {       //Se conecteaza websocket la server si se proceseaz
             ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end, 1] }));
         }
         else if ((page_name == 'service')) {
-            ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end, 1] }));
+            ws.send(JSON.stringify({ "command": "get_all_devices", "data": [start, end, start, end, 1] }));
         }
 
         ws.timer = setInterval(function () { pingpong(ws); }, 50000);
@@ -478,28 +455,32 @@ function filtreaza() {
     var $filterableRows = $('#' + target + ' tbody').find('tr');
     $filterableRows.hide().filter(function () {
         return $(this).find('td').filter(function () {
-            console.log($('#' + $(this).data('filtru')));
             var tdText = $(this).text().toUpperCase(),
                 inputValue = $('#' + $(this).data('filtru')).val().toUpperCase();
-            return tdText.indexOf(inputValue) != -1;
 
-        }).length == $(this).find('td').length;
+            // Verifică dacă input-ul este un checkbox
+            if ($('#' + $(this).data('filtru')).attr('type') === 'checkbox') {
+                // Dacă input-ul este un checkbox, verifică starea checkbox-ului din celulă
+                return $(this).find('input[type="checkbox"]').prop('checked') === $('#' + $(this).data('filtru')).prop('checked');
+            } else {
+                // Altfel, verifică dacă textul din celulă conține valoarea din input
+                return tdText.indexOf(inputValue) !== -1;
+            }
+        }).length === $(this).find('td').length;
     }).show();
 
     add_even_odd();
 
     setTimeout(function () {
-        //        console.log('Filter focus to ', focus_id);
         document.getElementById(focus_id).focus();
     }, 100);
 }
 
-var $table = $('#tabelp');
 
 var floatParam = {
     // thead cells
     headerCellSelector: 'tr:visible:first>*:visible',
-    top: 94,
+    top: 56,
     useAbsolutePositioning: false,
     zIndex: 10,
     //    autoReflow: true,
@@ -513,7 +494,6 @@ function aranjaza_tabel() {
     document.getElementById(focus_id).focus();
 }
 
-$table.on('reflowed', aranjaza_tabel);
 
 jQuery.fn.extend({
     chess_table: function () {

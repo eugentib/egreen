@@ -210,6 +210,12 @@ async function msg_nou (topic_arr, message_str) {
     to_send.mac = mac
     to_send.rssi = message_str
     await broadcastAsync(to_send)
+  } else if (field == 'R_sw') {
+    let to_send = {}
+    to_send.mac = mac
+    to_send.R_sw = message_str
+    console.log(`Broadcast R_sw to ${message_str} for mac ${mac}`);
+    await broadcastAsync(to_send)
   } else if (field == 'FW_ver') {
     update_device(mac, 'sw', message_str)
   } else if (field == 'vsw') {
@@ -224,7 +230,7 @@ async function msg_nou (topic_arr, message_str) {
     await broadcastAsync(to_send)
   } else if (topic_arr[0] == 'LWT') {
     console.log(message_str, ' went OFFLINE ')
-    update_device(message_str, topic_arr[0], '')
+    update_device(message_str, 'lcd', '')
     if (mac in mac_err) clear_error(mac, 'OFFLINE')
     let to_send = {}
     to_send.mac = message_str
