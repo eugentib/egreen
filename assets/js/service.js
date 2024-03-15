@@ -2,16 +2,6 @@ page_name = 'service'
 
 var $table = $('#dt_tabel')
 
-var floatParam = {
-  // thead cells
-  headerCellSelector: 'tr:visible:first>*:visible',
-  top: 96,
-  useAbsolutePositioning: false,
-  zIndex: 10
-  //    autoReflow: true,
-  //    position: 'fixed'
-}
-
 $table.floatThead(floatParam) //*/
 
 function ws_msg (received) {

@@ -32,7 +32,7 @@ function functiePeriodica () {
 
 // Setăm intervalul la care dorim să apelăm funcția de alertare gr2
 const interval = 60000
-//setInterval(functiePeriodica, interval);
+setInterval(functiePeriodica, interval);
 
 /**
  * Alerta_gr2 checks for minor error conditions across devices
