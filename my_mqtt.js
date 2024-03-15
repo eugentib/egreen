@@ -138,7 +138,7 @@ for (let c = 0; c < Broker_URL.length; c++) {
 
 function subscribe2arr (topics) {
   for (var i = 0; i < topics.length; i++) {
-    console.log('Subscribing to ' + topics[i])
+//    console.log('Subscribing to 2 ' + topics[i])
     mqttclient.subscribe(topics[i], mqtt_subscribe)
   }
 }
@@ -148,7 +148,7 @@ function mqtt_connected () {
   console.log('MQTT connected') //,client);
   for (let c = 0; c < Broker_URL.length; c++) {
     for (var i = 0; i < topics.length; i++) {
-      console.log('Subscribing to ' + topics[i])
+      console.log('Subscribing to 1 ' + topics[i])
       mqttclient.subscribe(topics[i], mqtt_subscribe)
     }
   }
@@ -299,7 +299,7 @@ function mqtt_close () {
 }
 
 function mqtt_subscribe (err, granted) {
-  console.log('Subscribed to ', granted)
+//  console.log('Subscribed to ', granted)
   if (err) {
     console.error(err)
   }

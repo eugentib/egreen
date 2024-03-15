@@ -6,6 +6,11 @@ $('.nav-item').on('click', function (e) {
   ws.send(JSON.stringify({ command: $(this).data('cmd') }))
 }) //*/
 
+//$(document).on('click', '.fa-pencil', function () {
+ // edit_check(this)
+//})
+//$('.fa-pencil').on('click', edit_check)
+
 function ws_msg (received) {
   switch (received.content) {
     case 'error':
@@ -167,9 +172,9 @@ function array_to_dturi (inregistrari) {
     insert_row_dturi(inregistrari[i], dataset)
   }
   $('#dt_tabel tbody tr').chess_table()
-  $('.fa-pencil').on('click', edit_check)
   // După încărcarea datelor în tabel
   rerandareTabel('dt_tabel')
+  $('.fa-pencil').on('click', edit_check)
 }
 
 function rerandareTabel(tabelId) {

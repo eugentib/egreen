@@ -199,7 +199,7 @@ async function msg_nou (topic_arr, message_str) {
     let err = get_errors(mac, message_str)
     let to_send = {}
     to_send.mac = mac
-    if (err < 2 && err > 4) to_send.status = err
+    if (err < 2 || err > 4) to_send.status = err
     else to_send.status = 0
     to_send.lcd = message_str
     await broadcastAsync(to_send)

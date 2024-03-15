@@ -16,119 +16,139 @@ async function query (sql, params) {
   })
 }
 
-function functiePeriodica () {
-  // Codul funcției asincrone pe care doriți să o apelați periodic
+async function functiePeriodica () {
   console.log('Funcție asincronă apelată periodic.')
 
-  // Puteți apela aici funcția asincronă dorită
-  alerta_gr2()
-    .then(rezultat => {
-      console.log(rezultat)
-    })
-    .catch(error => {
-      console.error(error)
-    })
+  try {
+    const rezultat = await alerta_gr2()
+    console.log(rezultat)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
-// Setăm intervalul la care dorim să apelăm funcția de alertare gr2
 const interval = 60000
-setInterval(functiePeriodica, interval);
+setInterval(functiePeriodica, interval)
 
-/**
- * Alerta_gr2 checks for minor error conditions across devices
- * and sends alerts if thresholds are exceeded.
- *
- * It queries the DB to get the threshold config values.
- * Then it runs queries to find devices with enough minor errors in the
- * last few hours, excluding devices that already had recent alerts.
- *
- * For each device that crosses the thresholds, it prepares an alert record
- * in the DB, logs details, and sends a notification to the frontend.
- */
 async function alerta_gr2 () {
-  // Citeste conditiile din DB
-  let sql = `SELECT * FROM configs`
-  const conditii = await query(sql, [])
+  let sql = 'SELECT * FROM configs'
+  const conditii = await query(sql)
+
   if (conditii.length < 3) {
     return 'Prea putine conditii...'
   }
-  //TODO verifica daca avem 4 sau mai multe erori minore peste 15 min in ultimele 2 ore
-  //  pentru un mac la care nu am trimis avertizare in ultimele 24 de ore
-  sql = `SELECT mac FROM (
-            SELECT mac, eroare
-            FROM stat_erori
-            WHERE eroare < 10
-              AND TIME_TO_SEC(durata) >= 15 * 60
-              AND data >= NOW() - INTERVAL ? HOUR
-              AND mac NOT IN (
-                  SELECT DISTINCT mac
-                  FROM avertizari
-                  WHERE grad = 2
-                    AND data >= NOW() - INTERVAL 24 HOUR
-              )
-        ) AS subquery
-        GROUP BY mac
-        HAVING COUNT(eroare) >= ?;
-        `
-  const mac_list1 = await query(sql, [conditii[0].val, conditii[1].val])
-  //TODO verifica daca avem mai mult de 2 ore in erori minore de peste 15 min in ultimele 3 ore
-  //    pentru un mac pentru un mac la care nu am trimis avertizare in ultimele 24 de ore
-  sql = `SELECT mac FROM ( 
-      SELECT mac, SUM(TIME_TO_SEC(durata)) AS total_durata FROM stat_erori 
-        WHERE eroare < 10 AND TIME_TO_SEC(durata) >= 15 * 60 
-        AND data >= NOW() - INTERVAL ? HOUR 
-        GROUP BY mac ) AS subquery WHERE total_durata >= ? * 60 * 60; `
-  const mac_list2 = await query(sql, [conditii[2].val, conditii[3].val])
-  if (mac_list1.length + mac_list2.length == 0)
-    return 'Nu este nevoie de alerta.'
-  //  pentru fiecare mac din cele 2 liste trimitem alerta
-  const listaMAC = mac_list1
-    .map(obj => obj.val)
-    .concat(mac_list2.map(obj => obj.val))
 
-  //  citeste mail responsabil
-  let email = 'email_serv'
-  sql = `SELECT email_serv AS email,serie,model,judet,localitate,strada,magazin,nrmag,mif,
-      resp, tel_resp, log_id.* FROM devices 
-              LEFT JOIN(
-                SELECT mac, stat_erori.id, data, eroare, lcd, descriere FROM stat_erori 
-                  LEFT JOIN def_erori ON stat_erori.eroare=def_erori.numar
-                  WHERE mac='${mac}' AND activa = 1
-                ) AS log_id ON devices.mac = log_id.mac 
-              WHERE devices.mac='${mac}';`
-  pool.query(sql, [], function (err, result, fields) {
-    if (err) {
-      console.error(err)
-      console.log(`Nu am putut formula alerta pentru ${mac}`)
-      return
-    } else {
+  sql = `SELECT mac FROM (
+    SELECT mac, eroare
+    FROM stat_erori
+    WHERE eroare < 10
+      AND TIME_TO_SEC(durata) >= 15 * 60
+      AND data >= NOW() - INTERVAL ? HOUR
+      AND mac NOT IN (
+        SELECT DISTINCT mac
+        FROM avertizari
+        WHERE grad = 2
+          AND data >= NOW() - INTERVAL 24 HOUR
+      )
+  ) AS subquery
+  GROUP BY mac
+  HAVING COUNT(eroare) >= ?;`
+
+  const mac_list1 = await query(sql, [conditii[0].val, conditii[1].val])
+
+  sql = `SELECT mac FROM ( 
+    SELECT mac, SUM(TIME_TO_SEC(durata)) AS total_durata 
+    FROM stat_erori 
+    WHERE eroare < 10 AND TIME_TO_SEC(durata) >= 15 * 60 
+      AND data >= NOW() - INTERVAL ? HOUR 
+    GROUP BY mac
+  ) AS subquery 
+  WHERE total_durata >= ? * 60 * 60;`
+
+  const mac_list2 = await query(sql, [conditii[2].val, conditii[3].val])
+
+  if (mac_list1.length + mac_list2.length == 0) {
+    return 'Nu este nevoie de alerta.'
+  }
+
+  const listaMAC = mac_list1
+    .map(obj => obj.mac)
+    .concat(mac_list2.map(obj => obj.mac))
+
+  for (const mac of listaMAC) {
+    sql = `SELECT email_serv AS email, serie, model, judet, localitate, strada, magazin, nrmag, mif,
+      resp, tel_resp, log_id.* 
+      FROM devices 
+      LEFT JOIN (
+        SELECT mac, stat_erori.id, data, eroare, lcd, descriere 
+        FROM stat_erori 
+        LEFT JOIN def_erori ON stat_erori.eroare = def_erori.numar
+        WHERE mac = ? AND activa = 1
+      ) AS log_id ON devices.mac = log_id.mac 
+      WHERE devices.mac = ?;`
+
+    const result = await query(sql, [mac, mac])
+
+    if (result.length > 0) {
       console.log(`Pregateste alerta pentru ${mac} catre ${result[0].email}`)
-      //  salveaza in alerte
-      let de_trimis = result[0]
-      sql = `INSERT INTO avertizari (nr_eroare, mail_catre, id_eroare , stadiu, mac,grad) 
-            VALUES (${result[0].eroare}, '${result[0].email}', ${
-        result[0].id
-      }, 1, '${mac}',${eroare > 10 ? 1 : 0})`
-      pool.query(sql, [], function (err, result, fields) {
-        if (err) {
-          console.error(err)
-          return
-        } else {
-          console.log(`Alerta pregatita pentru ${mac}, detaliile sunt:`)
-          console.log(de_trimis)
-          //  trimite catre web
-          let to_send = {}
-          to_send.mac = mac
-          if (eroare < 10) to_send.responsabil = 'Personal Kaufland'
-          else to_send.responsabil = 'Furnizor Service'
-          broadcastf(to_send)
-          //  trimite mail
-          my_email.send_email(de_trimis)
-        }
-      })
+
+      const de_trimis = result[0]
+
+      sql = `INSERT INTO avertizari (nr_eroare, mail_catre, id_eroare, stadiu, mac, grad) 
+        VALUES (?, ?, ?, 1, ?, ?)`
+
+      await query(sql, [
+        result[0].eroare,
+        result[0].email,
+        result[0].id,
+        mac,
+        2
+      ])
+
+      console.log(`Alerta gr2 pregatita pentru ${mac}, detaliile sunt:`)
+      console.log(de_trimis)
+
+      // TODO: Trimite alerta prin email către result[0].email
+      
+      const mailOptions = {
+        email: de_trimis.email,
+        subject: 'Alerta eroare grad 2',
+        text: `
+          Dispozitivul cu MAC: ${mac} a inregistrat erori repetate.
+          
+          Detalii dispozitiv:
+          Serie: ${de_trimis.serie}
+          Model: ${de_trimis.model}
+          Judet: ${de_trimis.judet}
+          Localitate: ${de_trimis.localitate}
+          Strada: ${de_trimis.strada}
+          Magazin: ${de_trimis.magazin}
+          Nr. Magazin: ${de_trimis.nrmag}
+          MIF: ${de_trimis.mif}
+          
+          Persoana responsabila:
+          Nume: ${de_trimis.resp}
+          Telefon: ${de_trimis.tel_resp}
+          
+          Detalii eroare:
+          Data: ${de_trimis.data}
+          Cod eroare: ${de_trimis.eroare}
+          Descriere: ${de_trimis.descriere}
+          Mesaj LCD: ${de_trimis.lcd}
+        `
+      };
+      
+      try {
+        my_email.send_email(mailOptions);
+        console.log(`Email trimis catre ${de_trimis.email} pentru alerta ${mac}.`);
+      } catch (error) {
+        console.error(`Eroare la trimiterea emailului pentru ${mac}:`, error);
+      }
     }
-  })
-} //*/
+  }
+  
+  return 'Alertele au fost procesate.';
+}
 
 /**
  * Updates the ballot count for the device with the given MAC address.
@@ -633,7 +653,7 @@ function request_db (msg, callback) {
     }
   let i = 0
   // Start the timer with a unique label
-  console.time('TotalRequestTime')
+//  console.time('TotalRequestTime')
   switch (msg.command) {
     case 'update_device': //update un anumit camp pentru device
       sql = `UPDATE devices SET ${msg.field}=? WHERE mac=?`
@@ -956,7 +976,7 @@ function request_db (msg, callback) {
       break
   }
   //  console.log('SQL=', sql);
-  console.time('queryTime')
+//  console.time('queryTime')
   pool.query(sql, msg.data, function (err, result, fields) {
     // Stop the timer and log the time taken for the query
     if (DEBUG) {
@@ -967,8 +987,8 @@ function request_db (msg, callback) {
         resp.content == 'devices_data'
       )
         console.log('SQL=\n', this.sql)
-      console.timeEnd('queryTime')
-      console.timeEnd('TotalRequestTime')
+//      console.timeEnd('queryTime')
+  //    console.timeEnd('TotalRequestTime')
     }
     if (err) {
       console.log('ERROR at SQL=', this.sql)
