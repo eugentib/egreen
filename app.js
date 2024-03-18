@@ -230,7 +230,7 @@ async function msg_nou (topic_arr, message_str) {
     await broadcastAsync(to_send)
   } else if (topic_arr[0] == 'LWT') {
     console.log(message_str, ' went OFFLINE ')
-    update_device(message_str, 'lcd', '')
+    update_device(message_str, 'LWT', '')
     if (mac in mac_err) clear_error(mac, 'OFFLINE')
     let to_send = {}
     to_send.mac = message_str

@@ -61,6 +61,12 @@ async function alerta_gr2 () {
     FROM stat_erori 
     WHERE eroare < 10 AND TIME_TO_SEC(durata) >= 15 * 60 
       AND data >= NOW() - INTERVAL ? HOUR 
+      AND mac NOT IN (
+        SELECT DISTINCT mac
+        FROM avertizari
+        WHERE grad = 2
+          AND data >= NOW() - INTERVAL 24 HOUR
+      )
     GROUP BY mac
   ) AS subquery 
   WHERE total_durata >= ? * 60 * 60;`
@@ -70,6 +76,9 @@ async function alerta_gr2 () {
   if (mac_list1.length + mac_list2.length == 0) {
     return 'Nu este nevoie de alerta.'
   }
+  let TipGr2 = 0
+  if (mac_list1.length > 0) TipGr2 += 1
+  if (mac_list2.length > 0) TipGr2 += 2
 
   const listaMAC = mac_list1
     .map(obj => obj.mac)
@@ -83,71 +92,48 @@ async function alerta_gr2 () {
         SELECT mac, stat_erori.id, data, eroare, lcd, descriere 
         FROM stat_erori 
         LEFT JOIN def_erori ON stat_erori.eroare = def_erori.numar
-        WHERE mac = ? AND activa = 1
+        WHERE mac = ? AND data >= NOW() - INTERVAL ? HOUR
       ) AS log_id ON devices.mac = log_id.mac 
       WHERE devices.mac = ?;`
 
-    const result = await query(sql, [mac, mac])
+    const result = await query(sql, [mac, conditii[3].val, mac])
 
     if (result.length > 0) {
       console.log(`Pregateste alerta pentru ${mac} catre ${result[0].email}`)
 
-      const de_trimis = result[0]
+      let de_trimis = result
+
+      // aduga la baza de date eroarea gr2 si citeste id-ul intrarii
+      sql = `INSERT INTO stat_erori (mac, nr_balot, eroare, data, durata, activa) 
+        VALUES (?, (SELECT nrBaloti FROM devices WHERE mac=?), 20, NOW(), 0, 0)`
+
+      let inset_id = await query(sql, [mac, mac])
+      de_trimis.gr2 = inset_id.insertId
+      de_trimis.tip = TipGr2
+      de_trimis.params = [conditii[0].val, conditii[1].val, conditii[2].val, conditii[3].val]
 
       sql = `INSERT INTO avertizari (nr_eroare, mail_catre, id_eroare, stadiu, mac, grad) 
-        VALUES (?, ?, ?, 1, ?, ?)`
+        VALUES (20, ?, ?, 1, ?, ?)`
 
-      await query(sql, [
-        result[0].eroare,
-        result[0].email,
-        result[0].id,
-        mac,
-        2
-      ])
+      await query(sql, [de_trimis[0].email, de_trimis.gr2, mac, 2])
 
       console.log(`Alerta gr2 pregatita pentru ${mac}, detaliile sunt:`)
       console.log(de_trimis)
 
       // TODO: Trimite alerta prin email către result[0].email
-      
-      const mailOptions = {
-        email: de_trimis.email,
-        subject: 'Alerta eroare grad 2',
-        text: `
-          Dispozitivul cu MAC: ${mac} a inregistrat erori repetate.
-          
-          Detalii dispozitiv:
-          Serie: ${de_trimis.serie}
-          Model: ${de_trimis.model}
-          Judet: ${de_trimis.judet}
-          Localitate: ${de_trimis.localitate}
-          Strada: ${de_trimis.strada}
-          Magazin: ${de_trimis.magazin}
-          Nr. Magazin: ${de_trimis.nrmag}
-          MIF: ${de_trimis.mif}
-          
-          Persoana responsabila:
-          Nume: ${de_trimis.resp}
-          Telefon: ${de_trimis.tel_resp}
-          
-          Detalii eroare:
-          Data: ${de_trimis.data}
-          Cod eroare: ${de_trimis.eroare}
-          Descriere: ${de_trimis.descriere}
-          Mesaj LCD: ${de_trimis.lcd}
-        `
-      };
-      
+
       try {
-        my_email.send_email(mailOptions);
-        console.log(`Email trimis catre ${de_trimis.email} pentru alerta ${mac}.`);
+        my_email.send_email(de_trimis)
+        console.log(
+          `Email trimis catre ${de_trimis[0].email} pentru alerta ${mac}.`
+        )
       } catch (error) {
-        console.error(`Eroare la trimiterea emailului pentru ${mac}:`, error);
+        console.error(`Eroare la trimiterea emailului pentru ${mac}:`, error)
       }
     }
   }
-  
-  return 'Alertele au fost procesate.';
+
+  return 'Alertele au fost procesate.'
 }
 
 /**
@@ -653,7 +639,7 @@ function request_db (msg, callback) {
     }
   let i = 0
   // Start the timer with a unique label
-//  console.time('TotalRequestTime')
+  //  console.time('TotalRequestTime')
   switch (msg.command) {
     case 'update_device': //update un anumit camp pentru device
       sql = `UPDATE devices SET ${msg.field}=? WHERE mac=?`
@@ -976,7 +962,7 @@ function request_db (msg, callback) {
       break
   }
   //  console.log('SQL=', sql);
-//  console.time('queryTime')
+  //  console.time('queryTime')
   pool.query(sql, msg.data, function (err, result, fields) {
     // Stop the timer and log the time taken for the query
     if (DEBUG) {
@@ -987,8 +973,8 @@ function request_db (msg, callback) {
         resp.content == 'devices_data'
       )
         console.log('SQL=\n', this.sql)
-//      console.timeEnd('queryTime')
-  //    console.timeEnd('TotalRequestTime')
+      //      console.timeEnd('queryTime')
+      //    console.timeEnd('TotalRequestTime')
     }
     if (err) {
       console.log('ERROR at SQL=', this.sql)
