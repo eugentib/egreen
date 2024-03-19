@@ -4,7 +4,7 @@ const fs = require('fs')
 
 const email_config = require('./email_config.json')
 const transporter = nodemailer.createTransport(email_config)
-const run_mode = require('./run_mode.json')
+const run_mode = require('./local_run_mode.json')
 const DEBUG = run_mode.debug
 
 let message = `<p>Please use the below token to reset your password with the <code>/apiRouter/reset-password</code> api route:</p>

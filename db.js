@@ -1,7 +1,7 @@
 var mysql = require('mysql2')
 
 var connection_config = require('./connection_config.json')
-const run_mode = require('./run_mode.json')
+const run_mode = require('./local_run_mode.json')
 const DEBUG = run_mode.debug
 var pool = mysql.createPool(connection_config)
 

@@ -4,4 +4,5 @@
 /node_modules
 connection_config.json
 run_mode.json
+local_run_mode.json
 email_config.json
