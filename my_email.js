@@ -4,6 +4,8 @@ const fs = require('fs')
 
 const email_config = require('./email_config.json')
 const transporter = nodemailer.createTransport(email_config)
+const run_mode = require('./run_mode.json')
+const DEBUG = run_mode.debug
 
 let message = `<p>Please use the below token to reset your password with the <code>/apiRouter/reset-password</code> api route:</p>
 <p><code></code></p>` // Here you can replace the message with your HTML code.
@@ -22,7 +24,7 @@ function comp_serv_gr2 (datea) {
     Suntem magazinul ${date.nrmag}, ${date.magazin}, din ${date.strada}, ${date.localitate}, ${date.judet} si va anuntam ca s-au depasit conditiile de nerezolvare a erorilor minore:<br>`
   if (datea.tip == 1 || datea.tip == 3)
     template_serv_gr2 += `  -	S-au transmis ${datea.params[0]} email-uri in ${datea.params[1]} ore.`
-    if (datea.tip == 2 || datea.tip == 3)
+  if (datea.tip == 2 || datea.tip == 3)
     template_serv_gr2 += `  -	Timpul cumulat afisare erori este de ${datea.params[2]} ore intr-un interval analizat de ${datea.params[3]} ore.
     
     Pe ecranul presei au fost afisate urmatoarele erori: <br>`
@@ -87,11 +89,12 @@ function send_email (date) {
   //Log email data in local file
   mail_log.write(JSON.stringify(mailOptions) + '\n')
 
-  /* transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log("Message sent: %s", info.messageId);
-    });	//*/
+  if (DEBUG == false)
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error)
+      }
+      console.log('Message sent: %s', info.messageId)
+    }) //*/
 }
 module.exports.send_email = send_email
