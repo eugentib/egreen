@@ -23,11 +23,11 @@ function comp_serv_gr2 (datea) {
   let template_serv_gr2 = `<p>Buna ziua,<br><br>
     Suntem magazinul ${date.nrmag}, ${date.magazin}, din ${date.strada}, ${date.localitate}, ${date.judet} si va anuntam ca s-au depasit conditiile de nerezolvare a erorilor minore:<br>`
   if (datea.tip == 1 || datea.tip == 3)
-    template_serv_gr2 += `  -	S-au transmis ${datea.params[0]} email-uri in ${datea.params[1]} ore.`
+    template_serv_gr2 += `  -	S-au transmis ${datea.params[0]} email-uri in ultimele ${datea.params[1]} ore.`
   if (datea.tip == 2 || datea.tip == 3)
-    template_serv_gr2 += `  -	Timpul cumulat afisare erori este de ${datea.params[2]} ore intr-un interval analizat de ${datea.params[3]} ore.
+    template_serv_gr2 += `  -	Timpul cumulat afisare erori este de ${datea.params[2]} ore intr-un interval analizat de ${datea.params[3]} ore.`
     
-    Pe ecranul presei au fost afisate urmatoarele erori: <br>`
+  template_serv_gr2 += `Pe ecranul presei au fost afisate urmatoarele erori: <br>`
   for (let i = 0; i < datea.length; i++) {
     template_serv_gr2 += `<li>${datea[i].lcd}</li>`
   }
