@@ -54,7 +54,7 @@ async function alerta_gr2 () {
   GROUP BY mac
   HAVING COUNT(eroare) >= ?;`
 
-  const mac_list1 = await query(sql, conditii[1].val, [conditii[0].val])
+  const mac_list1 = await query(sql, [conditii[1].val, conditii[0].val])
 
   sql = `SELECT mac FROM ( 
     SELECT mac, SUM(TIME_TO_SEC(durata)) AS total_durata 
@@ -71,7 +71,7 @@ async function alerta_gr2 () {
   ) AS subquery 
   WHERE total_durata >= ? * 60 * 60;`
 
-  const mac_list2 = await query(sql, conditii[3].val, [conditii[2].val])
+  const mac_list2 = await query(sql, [conditii[3].val, conditii[2].val])
 
   if (mac_list1.length + mac_list2.length == 0) {
     return 'Nu este nevoie de alerta.'
