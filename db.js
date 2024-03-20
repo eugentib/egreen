@@ -17,7 +17,7 @@ async function query (sql, params) {
 }
 
 async function functiePeriodica () {
-//  console.log('Funcție asincronă apelată periodic.')
+  //  console.log('Funcție asincronă apelată periodic.')
 
   try {
     const rezultat = await alerta_gr2()
@@ -105,15 +105,20 @@ async function alerta_gr2 () {
 
       // aduga la baza de date eroarea gr2 si citeste id-ul intrarii
       sql = `INSERT INTO stat_erori (mac, nr_balot, eroare, data, durata, activa) 
-        VALUES (?, (SELECT nrBaloti FROM devices WHERE mac=?), 20, NOW(), 0, 0)`
+        VALUES (?, (SELECT nrBaloti FROM devices WHERE mac=?), 20, NOW(), ${TipGr2}, 0)`
 
       let inset_id = await query(sql, [mac, mac])
       de_trimis.gr2 = inset_id.insertId
       de_trimis.tip = TipGr2
-      de_trimis.params = [conditii[0].val, conditii[1].val, conditii[2].val, conditii[3].val]
+      de_trimis.params = [
+        conditii[0].val,
+        conditii[1].val,
+        conditii[2].val,
+        conditii[3].val
+      ]
 
       sql = `INSERT INTO avertizari (nr_eroare, mail_catre, id_eroare, stadiu, mac, grad) 
-        VALUES (20, ?, ?, 1, ?, ?)`
+        VALUES (${TipGr2 + 19}, ?, ?, 3, ?, ?)`
 
       await query(sql, [de_trimis[0].email, de_trimis.gr2, mac, 2])
 
