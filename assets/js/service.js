@@ -183,7 +183,7 @@ function insert_row_devices (date, dataset) {
       // punem buntone pentru update, reset, simulate
       row += `<button class="btn btn-warning btn-sm" onclick="command_device('${date.mac}','fs_update')">FSUpdate</button>`
       row += `<button class="btn btn-info btn-sm" onclick="command_device('${date.mac}','fdir:')">FSdir</button>`
-      //          row += `<button class="btn btn-info btn-sm" onclick="command_device('${date.mac}','stop')">Stop</button>`;
+      row += `<button class="btn btn-info btn-sm" onclick="window.location.href = 'devmgr?mac=' + encodeURIComponent('${date.mac}');">Detalii</button>`;
     } else row += date[adate[j]] + '</td>'
   }
   row += '</tr>'

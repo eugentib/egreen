@@ -87,32 +87,6 @@ async function clear_error (mac, msg = 'OK') {
   to_send.responsabil = ''
   await broadcastAsync(to_send)
 }
-
-function parse_new_LCD_msg (msg) {
-  //este PRESA sau BALOT?
-  {
-    //memoreaza si trimte catre web
-
-    return
-  }
-  //este scroll?
-  {
-    //trimite catre web
-
-    return
-  }
-  //este eroare?
-  {
-    //DA avem deja eroarea ASTA vazuta?
-
-    {
-      //NU
-      //stergem eroarea veche si timerele aferente daca exista
-      //Memoram eroare noua, pornim timer si transmitem catre web
-    }
-  }
-}
-
 function get_errors (mac, message_str) {
   // check for errors
   let err = -1
@@ -214,7 +188,22 @@ async function msg_nou (topic_arr, message_str) {
     let to_send = {}
     to_send.mac = mac
     to_send.R_sw = message_str
-    console.log(`Broadcast R_sw to ${message_str} for mac ${mac}`);
+    await broadcastAsync(to_send)
+  } else if (field == 'HEAP') {
+    let to_send = {}
+    to_send.mac = mac
+    to_send.heap = message_str
+    await broadcastAsync(to_send)
+  } else if (field == 'Uptime') {
+    let to_send = {}
+    to_send.mac = mac
+    to_send.uptime = message_str
+    await broadcastAsync(to_send)
+  } else if (field == 'file_content') {
+    console.log("Received file content from ", message_str);
+    let to_send = {}
+    to_send.mac = mac
+    to_send.file_content = message_str
     await broadcastAsync(to_send)
   } else if (field == 'FW_ver') {
     update_device(mac, 'sw', message_str)
@@ -369,6 +358,6 @@ app.get('/config', (req, res) => {
   res.render('config', { versiune: pjson.version })
 })
 
-app.get('/cautare', (req, res) => {
-  res.render('cautare', { versiune: pjson.version })
+app.get('/devmgr', (req, res) => {
+  res.render('devmgr', { versiune: pjson.version })
 })

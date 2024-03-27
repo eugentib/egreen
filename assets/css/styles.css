@@ -46,6 +46,20 @@
   text-decoration: none;
 }
 
+textarea.form-control{
+  width: max-content;
+}
+
+.row-max-content {
+  width: max-content;
+  margin: 0 auto;
+  color:  #333333;
+}
+
+.TitluMonetar {
+  text-align: center;
+}
+
 .nav_link {
   color: rgb(33, 38, 42);
   margin-top: -5px;

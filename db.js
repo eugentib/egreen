@@ -456,6 +456,13 @@ function get_topics (callback) {
       top.push('Kaufland/' + results[i].mac + '/R_sw')
       top.push('Kaufland/' + results[i].mac + '/model')
       top.push('Kaufland/' + results[i].mac + '/nrbalot')
+      top.push('Kaufland/' + results[i].mac + '/Uptime')
+      top.push('Kaufland/' + results[i].mac + '/Time')
+      top.push('Kaufland/' + results[i].mac + '/file_content')
+      top.push('Kaufland/' + results[i].mac + '/file_contentp')
+      top.push('Kaufland/' + results[i].mac + '/FW_ver')
+      top.push('Kaufland/' + results[i].mac + '/crash')
+      top.push('Kaufland/' + results[i].mac + '/HEAP')
     }
     //    console.log(top);
     callback(top)
@@ -500,7 +507,7 @@ var upd_dev = function (mac, field, data) {
   if (field == 'ONLINE') {
     update_status(mac, 'OK')
     query(
-      `UPDATE stat_conexiuni SET data_online=NOW(), durata = TIMEDIFF(NOW(), data_offline) WHERE mac='${mac}' and data_online IS NULL`,
+      `UPDATE stat_conexiuni SET data_online=NOW(), vizibil=1, durata = TIMEDIFF(NOW(), data_offline) WHERE mac='${mac}' and data_online IS NULL`,
       []
     )
       .then(console.log('Conexiune restabilita pentru ' + mac))
@@ -717,7 +724,7 @@ function request_db (msg, callback) {
       break
 
     case 'get_all_devices':
-      sql = `SELECT devices.*, 
+      sql = `SELECT devices.balotiRevizie, devices.dataRevizie, devices.devsw, devices.email_kauf, devices.email_serv, devices.gol, devices.id, devices.intervalBaloti,devices.intervalRevizie,devices.judet,devices.l_pl_c,devices.lastLCD,devices.lastUPDATE,devices.lcd,devices.localitate,devices.mac,devices.magazin,devices.mif,devices.model,devices.nrBaloti,devices.nr_e,devices.nr_e_kip,devices.nrmag,devices.pl_c,devices.resp,devices.rssi,devices.serie,devices.status,devices.status_rev,devices.strada,devices.sw,devices.tel_resp,devices.vizibil,devices.zero, 
         SEC_TO_TIME(SUM(TIME_TO_SEC(CASE WHEN stat_erori.eroare > 10 THEN stat_erori.durata ELSE '00:00:00' END))) AS downtime,
         COALESCE(baloti_counts.blc, 0) AS blc,
         COUNT(CASE WHEN stat_erori.eroare < 11 THEN 1 END) AS minore,

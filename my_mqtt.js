@@ -185,9 +185,14 @@ function new_device (message_str) {
     mqttclient.subscribe(`Kaufland/${mac}/crash`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/rssi`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/scr`, mqtt_subscribe)
+    mqttclient.subscribe(`Kaufland/${mac}/HEAP`, mqtt_subscribe)
+    mqttclient.subscribe(`Kaufland/${mac}/file_content`, mqtt_subscribe)
+    mqttclient.subscribe(`Kaufland/${mac}/file_contentp`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/nrbalot`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/model`, mqtt_subscribe)
     mqttclient.subscribe(`Kaufland/${mac}/vsw`, mqtt_subscribe)
+    mqttclient.subscribe(`Kaufland/${mac}/Time`, mqtt_subscribe)
+    mqttclient.subscribe(`Kaufland/${mac}/Uptime`, mqtt_subscribe)
   }
 }
 
