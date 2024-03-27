@@ -243,7 +243,7 @@ module.exports.save_err = save_err
  * @param {string} status - The new status message to set.
  */
 function update_status (mac, status) {
-  var sql = `UPDATE devices SET status='${status}' WHERE mac='${mac}'`
+  var sql = `UPDATE devices SET status='${status}', vizibil=1 WHERE mac='${mac}'`
 
   pool.query(sql, [], function (err, result, fields) {
     if (err) {
@@ -507,7 +507,7 @@ var upd_dev = function (mac, field, data) {
   if (field == 'ONLINE') {
     update_status(mac, 'OK')
     query(
-      `UPDATE stat_conexiuni SET data_online=NOW(), vizibil=1, durata = TIMEDIFF(NOW(), data_offline) WHERE mac='${mac}' and data_online IS NULL`,
+      `UPDATE stat_conexiuni SET data_online=NOW(), durata = TIMEDIFF(NOW(), data_offline) WHERE mac='${mac}' and data_online IS NULL`,
       []
     )
       .then(console.log('Conexiune restabilita pentru ' + mac))
