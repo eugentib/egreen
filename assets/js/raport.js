@@ -30,7 +30,7 @@ function get_raport_data() {
     var start = datepicker2mysqldate('#datepicker');
     var end = datepicker2mysqldate('#datepicker2');
     console.log(end);
-    ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end] }));
+    ws.send(JSON.stringify({ "command": "get_devices", "data": [start, end, start, end,1] }));
 
 }
 
