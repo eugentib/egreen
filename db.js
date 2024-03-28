@@ -243,7 +243,7 @@ module.exports.save_err = save_err
  * @param {string} status - The new status message to set.
  */
 function update_status (mac, status) {
-  var sql = `UPDATE devices SET status='${status}', vizibil=1 WHERE mac='${mac}' AND mif IS NULL`
+  var sql = `UPDATE devices SET status='${status}', vizibil=1 WHERE mac='${mac}' AND mif IS NOT NULL`
 
   pool.query(sql, [], function (err, result, fields) {
     if (err) {
